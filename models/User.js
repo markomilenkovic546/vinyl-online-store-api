@@ -1,45 +1,65 @@
 import mongoose from 'mongoose';
 
-const UserSchema = new mongoose.Schema(
+const UserSchema = new mongoose.Schema({
+  firstName: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  lastName: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+    lowercase: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  profileImage: {
+    type: String, // URL or path to the image
+    default: '',
+  },
+  cart: [
     {
-        firstName: {
-            type: String,
-            required: true,
-            min: 2,
-            max: 50
-        },
-        lastName: {
-            type: String,
-            required: true,
-            min: 2,
-            max: 50
-        },
-        email: {
-            type: String,
-            required: true,
-            max: 50,
-            unique: true
-        },
-        password: {
-            type: String,
-            required: true,
-            min: 5
-        },
-        picturePath: {
-            type: String,
-            default: ''
-        },
-        friends: {
-            type: Array,
-            default: []
-        },
-        location: String,
-        occupation: String,
-        viewedProfile: Number,
-        impressions: Number
+      productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+      quantity: { type: Number, required: true, default: 1 },
+    }
+  ],
+
+  favorites: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product',
     },
-    { timestamps: true }
-);
+  ],
+  orders: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Order',
+    },
+  ],
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+// Pre-save hook to update 'updatedAt' on user update
+UserSchema.pre('save', function (next) {
+  this.updatedAt = Date.now();
+  next();
+});
 
 const User = mongoose.model('User', UserSchema);
 export default User;
