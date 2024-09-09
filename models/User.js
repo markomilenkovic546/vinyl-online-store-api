@@ -26,12 +26,6 @@ const UserSchema = new mongoose.Schema({
         type: String, // URL or path to the image
         default: ''
     },
-    cart: [
-        {
-            productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
-            quantity: { type: Number, required: true, default: 1 }
-        }
-    ],
 
     favorites: [
         {
@@ -39,12 +33,7 @@ const UserSchema = new mongoose.Schema({
             ref: 'Product'
         }
     ],
-    orders: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Order'
-        }
-    ],
+
     createdAt: {
         type: Date,
         default: Date.now
