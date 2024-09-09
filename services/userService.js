@@ -21,13 +21,13 @@ export const registerUser = async (registerRequestDTO) => {
 };
 
 export const loginUser = async (loginRequestDTO) => {
-    const {email, password} = loginRequestDTO
+    const { email, password } = loginRequestDTO;
     // Search for email in db
     const user = await User.findOne({ email });
     if (!user) {
         throw new Error('User does not exist.');
     }
-    
+
     // Validate password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
@@ -37,4 +37,9 @@ export const loginUser = async (loginRequestDTO) => {
     // Sign the access token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     return { token, user };
+};
+
+export const getUserById = async (userId) => {
+    const user = await User.findById(userId);
+    return user;
 };
