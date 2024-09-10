@@ -13,7 +13,7 @@ export const register = async (req, res) => {
         // Validate mandatory fields
         if (!firstName || !lastName || !email || !password) {
             return res.status(400).json({
-                error: 'firstName, lastName, email, and password are required fields.'
+                error: 'firstName, lastName, email, and password are required inputs.'
             });
         }
 

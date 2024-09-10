@@ -43,3 +43,23 @@ export const getUserById = async (userId) => {
     const user = await User.findById(userId);
     return user;
 };
+
+export const changePassword = async (req, res, changePasswordRequestDTO) => {
+    const { userId, currentPassword, newPassword } = changePasswordRequestDTO;
+    const user = await User.findById(userId);
+    if (!user) {
+        throw new Error('User not found.');
+    }
+    // Validate current password
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) {
+        throw new Error('Current password is incorrect.');
+    }
+    // Encrypt the new password
+    const salt = await bcrypt.genSalt();
+    const newPasswordHash = await bcrypt.hash(newPassword, salt);
+
+    // Update the user's password in the database
+    user.password = newPasswordHash;
+    await user.save();
+};
