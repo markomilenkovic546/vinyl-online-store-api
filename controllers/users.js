@@ -3,8 +3,8 @@ import { GetUserResponseDTO } from '../dtos/users/GetUserResponseDTO.js';
 
 // Controller function to handle the GET /user/:id route
 export const getUserHandler = async (req, res) => {
-    // Get user ID from the request
-    const { id } = req.params;
+    // Get extracted user id from the access token
+    const { id } = req.user;
     try {
         // Get user data by user id from the database
         const user = await getUserById(id);

@@ -39,7 +39,7 @@ const upload = multer({ storage });
 
 /* ROUTES */ 
 app.use('/auth', authRoutes)
-app.use('/users', usersRoutes)
+app.use('/user', usersRoutes)
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
