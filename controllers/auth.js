@@ -65,6 +65,6 @@ export const login = async (req, res) => {
         // Send response for the successful login
         res.status(200).json(loginResponseDTO);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(401).json({error:'Invalid email or password'});
     }
 };
