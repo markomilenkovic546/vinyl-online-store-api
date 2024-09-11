@@ -110,7 +110,7 @@ export const updateUserHandler = async (req, res) => {
         if (error.message === 'User not found.') {
             return res.status(404).json({ message: 'User not found' });
         }
-        if (error.message === 'User not found.') {
+        if (error.message === 'Email already in use.') {
             return res.status(400).json({ message: 'Email already in use.' });
         }
         res.status(500).json({
