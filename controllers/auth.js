@@ -33,10 +33,11 @@ export const register = async (req, res) => {
         res.status(201).json(registerResponseDTO);
     } catch (error) {
         if (error.code === 11000) {
-            res.status(400).json({ error: 'Email already exists' });
-        } else {
-            res.status(500).json({ error: error.message });
+            return res.status(400).json({ error: 'Email already exists' });
         }
+        res.status(500).json({
+            message: 'An unexpected error occurred. Please try again later.'
+        });
     }
 };
 
@@ -65,6 +66,14 @@ export const login = async (req, res) => {
         // Send response for the successful login
         res.status(200).json(loginResponseDTO);
     } catch (error) {
-        res.status(401).json({ error: 'Invalid email or password' });
+        if (error.message === 'User does not exist.')
+            return res.status(404).json({ error: 'User does not exist.' });
+
+        if (error.message === 'Password is incorrect.') {
+            return res.status(401).json({ error: 'Password is incorrect.' });
+        }
+        res.status(500).json({
+            message: 'An unexpected error occurred. Please try again later.'
+        });
     }
 };
