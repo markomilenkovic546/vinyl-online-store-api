@@ -62,5 +62,34 @@ export const changePassword = async (req, res, changePasswordRequestDTO) => {
     // Update the user's password in the database
     user.password = newPasswordHash;
     await user.save();
-    return user
+    return user;
+};
+
+export const updateUser = async (req, res, updateUserRequestDTO) => {
+    const { userId, firstName, lastName, email } = updateUserRequestDTO;
+    // Find the user by ID
+    const user = await User.findById(userId);
+    if (!user) {
+        throw new Error('User not found.');
+    }
+    // Update only the fields that were provided
+    if (firstName) user.firstName = firstName;
+    if (lastName) user.lastName = lastName;
+
+    // Check if the email is being updated and ensure it's unique
+    if (email && email !== user.email) {
+        const emailExists = await User.findOne({ email });
+        if (emailExists) {
+            throw new Error('Email already in use.');
+        }
+        user.email = email;
+    }
+
+    // If a new profile image is uploaded, update the profileImage field
+    if (req.file) {
+        user.profileImage = `/assets/profileImages/${req.file.filename}`;
+    }
+    // Save the updated user
+    await user.save();
+    return user;
 };

@@ -1,7 +1,13 @@
-import { getUserById, changePassword } from '../services/userService.js';
+import {
+    getUserById,
+    changePassword,
+    updateUser
+} from '../services/userService.js';
 import { GetUserResponseDTO } from '../dtos/users/GetUserResponseDTO.js';
 import { ChangePasswordRequestDTO } from '../dtos/users/ChangePasswordRequestDTO.js';
 import { ChangePasswordResponseDTO } from '../dtos/users/ChangePasswordResponseDTO.js';
+import { UpdateUserRequestDTO } from '../dtos/users/UpdateUserRequestDTO.js';
+import { UpdateUserResponseDTO } from '../dtos/users/UpdateUserResponseDTO.js';
 
 // Controller function to handle the GET /user/:id route
 export const getUserHandler = async (req, res) => {
@@ -78,5 +84,38 @@ export const changePasswordHandler = async (req, res) => {
             message: 'An unexpected error occurred. Please try again later.'
         });
         console.log(error.message);
+    }
+};
+
+export const updateUserHandler = async (req, res) => {
+    const { id } = req.user;
+    const { firstName, lastName, email, profileImage } = req.body;
+    if(!firstName && !lastName && !email && !profileImage){
+        return res.status(400).json({message: 'No input provided'})
+    }
+    const updateUserRequestDTO = new UpdateUserRequestDTO(
+        id,
+        firstName,
+        lastName,
+        email
+    );
+
+    try {
+        // Updated user in database
+        const updatedUser = await updateUser(req, res, updateUserRequestDTO);
+        const updateUserResponseDTO = new UpdateUserResponseDTO(updatedUser)
+        // Send a success response with the updated user data
+        res.status(200).json(updateUserResponseDTO);
+    } catch (error) {
+        if (error.message === 'User not found.') {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        if (error.message === 'User not found.') {
+            return res.status(400).json({ message: 'Email already in use.' });
+        }
+        res.status(500).json({
+            message: 'An unexpected error occurred. Please try again later.'
+        });
+        console.error(error.message);
     }
 };
