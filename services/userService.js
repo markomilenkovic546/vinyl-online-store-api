@@ -62,4 +62,5 @@ export const changePassword = async (req, res, changePasswordRequestDTO) => {
     // Update the user's password in the database
     user.password = newPasswordHash;
     await user.save();
+    return user
 };

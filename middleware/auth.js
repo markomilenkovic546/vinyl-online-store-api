@@ -15,7 +15,11 @@ export const verifyToken = async (req, res, next) => {
         req.user = verified;
         next();
     } catch (error) {
-        res.status(401).json({ error: error.message });
+        if (error.message === 'invalid signature') {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+        res.status(500).json({ error: error.message });
+
         console.log(error.message);
     }
 };

@@ -1,5 +1,6 @@
-export class GetUserResponseDTO {
+export class ChangePasswordResponseDTO {
     constructor(userObject) {
+        this.message = 'Password successfully changed.'
         this._id = userObject._id;
         this.firstName = userObject.firstName;
         this.lastName = userObject.lastName;
