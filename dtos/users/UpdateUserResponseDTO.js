@@ -5,7 +5,8 @@ export class UpdateUserResponseDTO {
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
-            profileImage: user.profileImage
+            profileImage: user.profileImage,
+            birthday: user.birthday
         };
     }
 }

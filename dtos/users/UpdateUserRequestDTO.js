@@ -1,8 +1,8 @@
 export class UpdateUserRequestDTO {
-    constructor(userId, firstName, lastName, email) {
+    constructor(userId, firstName, lastName, birthday) {
         this.userId = userId
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
+        this.birthday = birthday;
     }
 }

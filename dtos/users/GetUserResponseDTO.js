@@ -5,7 +5,9 @@ export class GetUserResponseDTO {
         this.lastName = userObject.lastName;
         this.email = userObject.email;
         this.profileImage = userObject.profileImage;
-        this.favorites = userObject.favorites;
+        this.birthday = userObject.birthday;
+        this.recordsCollection = userObject.recordsCollection
+        this.loyaltyPoints = userObject.loyaltyPoints
         this.createdAt = userObject.createdAt;
         this.updatedAt = userObject.updatedAt;
     }

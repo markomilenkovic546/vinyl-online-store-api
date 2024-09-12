@@ -89,30 +89,30 @@ export const changePasswordHandler = async (req, res) => {
 
 export const updateUserHandler = async (req, res) => {
     const { id } = req.user;
-    const { firstName, lastName, email, profileImage } = req.body;
-    if(!firstName && !lastName && !email && !profileImage){
-        return res.status(400).json({message: 'No input provided'})
+    const { firstName, lastName, birthday } = req.body;
+
+    if (!firstName && !lastName && !birthday && !req.file) {
+        return res.status(400).json({ message: 'No input provided' });
     }
+
     const updateUserRequestDTO = new UpdateUserRequestDTO(
         id,
         firstName,
         lastName,
-        email
+        birthday
     );
 
     try {
         // Updated user in database
         const updatedUser = await updateUser(req, res, updateUserRequestDTO);
-        const updateUserResponseDTO = new UpdateUserResponseDTO(updatedUser)
+        const updateUserResponseDTO = new UpdateUserResponseDTO(updatedUser);
         // Send a success response with the updated user data
         res.status(200).json(updateUserResponseDTO);
     } catch (error) {
         if (error.message === 'User not found.') {
             return res.status(404).json({ message: 'User not found' });
         }
-        if (error.message === 'Email already in use.') {
-            return res.status(400).json({ message: 'Email already in use.' });
-        }
+
         res.status(500).json({
             message: 'An unexpected error occurred. Please try again later.'
         });

@@ -66,24 +66,18 @@ export const changePassword = async (req, res, changePasswordRequestDTO) => {
 };
 
 export const updateUser = async (req, res, updateUserRequestDTO) => {
-    const { userId, firstName, lastName, email } = updateUserRequestDTO;
+    const { userId, firstName, lastName, birthday } = updateUserRequestDTO;
+
     // Find the user by ID
     const user = await User.findById(userId);
     if (!user) {
         throw new Error('User not found.');
     }
+
     // Update only the fields that were provided
     if (firstName) user.firstName = firstName;
     if (lastName) user.lastName = lastName;
-
-    // Check if the email is being updated and ensure it's unique
-    if (email && email !== user.email) {
-        const emailExists = await User.findOne({ email });
-        if (emailExists) {
-            throw new Error('Email already in use.');
-        }
-        user.email = email;
-    }
+    if (birthday) user.birthday = birthday;
 
     // If a new profile image is uploaded, update the profileImage field
     if (req.file) {
