@@ -62,13 +62,16 @@ export const login = async (req, res) => {
 
         // Perform authentication
         const loggedInUser = await loginUser(loginRequestDTO);
+        
         // Instantiate LoginResponseDTO class to create a response body object
         const loginResponseDTO = new LoginResponseDTO(loggedInUser);
+       
         // Set the token in an HTTP-Only cookie
         res.cookie('jwt', loggedInUser.token, {
             httpOnly: true,
             secure: false,
             maxAge: 3 * 24 * 60 * 60 * 1000
+        
         });
         // Send response for the successful login
         res.status(200).json(loginResponseDTO);
@@ -95,7 +98,6 @@ export const logout = async (req, res) => {
             maxAge: 3 * 24 * 60 * 60 * 1000
         });
 
-        // Optionally, send a response
         res.status(200).json({ message: 'Logged out successfully' });
     } catch (error) {
         res.status(500).json({
