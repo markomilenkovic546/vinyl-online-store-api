@@ -12,6 +12,8 @@ import authRoutes from './routes/auth.js'
 import usersRoutes from './routes/users.js'
 import { verifyToken } from './middleware/auth.js';
 import { updateUserHandler } from './controllers/users.js';
+import { createProductHandler } from './controllers/product.js';
+
 /* CONFIGURATIONS */
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,7 +26,7 @@ app.use(bodyParser.json({ limit: '30mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 app.use(cors());
 app.use('/assets/profileImages', express.static(path.join(__dirname, 'public/assets/profileImages')));
-
+app.use('/assets/productImages', express.static(path.join(__dirname, 'public/assets/productImages')));
 /* FILE STORAGE FOR PROFILE IMAGES */
 const profileImageStorage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -37,8 +39,21 @@ const profileImageStorage = multer.diskStorage({
 
 const uploadProfileImage = multer({ storage: profileImageStorage });
 
+/* FILE STORAGE FOR PRODUCT IMAGES */
+const productImageStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/assets/productImages'); 
+    },
+    filename: function (req, file, cb) {
+        cb(null, `${Date.now()}-${file.originalname}`);
+    }
+});
+
+const uploadProductImage = multer({ storage: productImageStorage });
+
 /* ROUTES WITH FILES */
 app.patch('/api/v1/user', verifyToken, uploadProfileImage.single('profileImage'), updateUserHandler);
+app.post('/api/v1/product', uploadProductImage.single('productImage'), createProductHandler);
 /* ROUTES */ 
 app.use('/api/v1/auth', authRoutes)
 app.use('/api/v1/user', usersRoutes)
