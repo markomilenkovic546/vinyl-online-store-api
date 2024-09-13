@@ -4,7 +4,7 @@ export const verifyToken = async (req, res, next) => {
     try {
         let token = req.cookies.jwt;
         if (!token) {
-            return res.status(403).send('Access Denied');
+            return res.status(403).send({ message: 'Access Denied' });
         }
 
         if (token.startsWith('Bearer ')) {
