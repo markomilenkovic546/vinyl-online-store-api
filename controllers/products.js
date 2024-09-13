@@ -1,6 +1,7 @@
 import { createProduct } from '../services/productService.js';
 import { CreateProductRequestDTO } from '../dtos/product/CreateProductRequestDTO.js';
 import { CreateProductResponseDTO } from '../dtos/product/CreateProductResponseDTO.js';
+import { getProductById } from '../services/productService.js';
 
 export const createProductHandler = async (req, res) => {
     const fileName = req.file?.filename;
@@ -27,7 +28,9 @@ export const createProductHandler = async (req, res) => {
     try {
         tracks = JSON.parse(tracksString);
     } catch (error) {
-        return res.status(400).json({ error: 'Tracks must be a valid JSON array.' });
+        return res
+            .status(400)
+            .json({ error: 'Tracks must be a valid JSON array.' });
     }
     // Input validation: check required fields
     if (
@@ -90,5 +93,22 @@ export const createProductHandler = async (req, res) => {
             message: 'An unexpected error occurred. Please try again later.'
         });
         console.error(error.message);
+    }
+};
+
+export const getProductByIdHandler = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const product = await getProductById(id);
+        res.status(200).json(product);
+    } catch (error) {
+        if (error.message === 'Product not found.') {
+            return res.status(404).json({ error: 'Product not found.' });
+        }
+        res.status(500).json({
+            message: 'An unexpected error occurred. Please try again later.'
+        });
+        console.error(error);
     }
 };

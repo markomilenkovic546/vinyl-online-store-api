@@ -10,9 +10,10 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import authRoutes from './routes/auth.js'
 import usersRoutes from './routes/users.js'
+import productsRoutes from './routes/products.js'
 import { verifyToken } from './middleware/auth.js';
 import { updateUserHandler } from './controllers/users.js';
-import { createProductHandler } from './controllers/product.js';
+import { createProductHandler } from './controllers/products.js';
 
 /* CONFIGURATIONS */
 const __filename = fileURLToPath(import.meta.url);
@@ -57,6 +58,7 @@ app.post('/api/v1/product', uploadProductImage.single('productImage'), createPro
 /* ROUTES */ 
 app.use('/api/v1/auth', authRoutes)
 app.use('/api/v1/user', usersRoutes)
+app.use('/api/v1/products', productsRoutes)
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
