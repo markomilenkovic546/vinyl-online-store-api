@@ -119,3 +119,7 @@ export const updateUserHandler = async (req, res) => {
         console.error(error.message);
     }
 };
+
+export const addAddress = async (req, res) => {
+    
+}
