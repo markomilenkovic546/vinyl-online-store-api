@@ -27,9 +27,15 @@ app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
 app.use(bodyParser.json({ limit: '30mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 app.use(cookieParser());
-app.use(cors());
 app.use('/assets/profileImages', express.static(path.join(__dirname, 'public/assets/profileImages')));
 app.use('/assets/productImages', express.static(path.join(__dirname, 'public/assets/productImages')));
+
+const clientOrigin = process.env.CLIENT_ORIGIN;
+app.use(cors({
+    origin: clientOrigin,
+    credentials: true 
+}));
+
 /* FILE STORAGE FOR PROFILE IMAGES */
 const profileImageStorage = multer.diskStorage({
     destination: function (req, file, cb) {

@@ -1,14 +1,16 @@
 import {
     getUserById,
     changePassword,
-    updateUser
+    updateUser,
+    addAddress
 } from '../services/userService.js';
 import { GetUserResponseDTO } from '../dtos/users/GetUserResponseDTO.js';
 import { ChangePasswordRequestDTO } from '../dtos/users/ChangePasswordRequestDTO.js';
 import { ChangePasswordResponseDTO } from '../dtos/users/ChangePasswordResponseDTO.js';
 import { UpdateUserRequestDTO } from '../dtos/users/UpdateUserRequestDTO.js';
 import { UpdateUserResponseDTO } from '../dtos/users/UpdateUserResponseDTO.js';
-
+import { AddAddressRequestDTO } from '../dtos/users/AddAddressRequestDTO.js';
+import { AddAddressResponseDTO } from '../dtos/users/AddAddressResponseDTO.js';
 // Controller function to handle the GET /user/:id route
 export const getUserHandler = async (req, res) => {
     // Get extracted user id from the access token
@@ -120,6 +122,53 @@ export const updateUserHandler = async (req, res) => {
     }
 };
 
-export const addAddress = async (req, res) => {
-    
-}
+export const addAddressHandler = async (req, res) => {
+    const {
+        country,
+        firstName,
+        lastName,
+        streetAddress,
+        city,
+        state,
+        postalCode
+    } = req.body;
+
+    const errors = [];
+
+    // Validate each field individually
+    if (!country) errors.push('Country is required.');
+    if (!firstName) errors.push('First name is required.');
+    if (!lastName) errors.push('Last name is required.');
+    if (!streetAddress) errors.push('Street Address is required.');
+    if (!city) errors.push('City is required.');
+    if (!state) errors.push('State is required.');
+    if (!postalCode) errors.push('Postal code is required.');
+
+    if (errors.length > 0) {
+        return res.status(400).json({ errors });
+    }
+
+    const addAddressRequestDTO = new AddAddressRequestDTO(
+        country,
+        firstName,
+        lastName,
+        streetAddress,
+        city,
+        state,
+        postalCode
+    );
+    try {
+        const addedAddress = await addAddress(addAddressRequestDTO);
+        const addAddressResponseDTO = new AddAddressResponseDTO(addedAddress);
+        res.status(201).json(addAddressResponseDTO);
+    } catch (error) {
+        if (error.message === 'User not found.') {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.status(500).json({
+            error: 'An unexpected error occurred. Please try again later.'
+        });
+        console.error(error.message);
+    }
+};
