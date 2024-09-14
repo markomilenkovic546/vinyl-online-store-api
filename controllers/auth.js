@@ -36,7 +36,7 @@ export const register = async (req, res) => {
             return res.status(400).json({ error: 'Email already exists' });
         }
         res.status(500).json({
-            message: 'An unexpected error occurred. Please try again later.'
+            error: 'An unexpected error occurred. Please try again later.'
         });
         console.log(error);
     }
@@ -62,16 +62,15 @@ export const login = async (req, res) => {
 
         // Perform authentication
         const loggedInUser = await loginUser(loginRequestDTO);
-        
+
         // Instantiate LoginResponseDTO class to create a response body object
         const loginResponseDTO = new LoginResponseDTO(loggedInUser);
-       
+
         // Set the token in an HTTP-Only cookie
         res.cookie('jwt', loggedInUser.token, {
             httpOnly: true,
             secure: false,
             maxAge: 3 * 24 * 60 * 60 * 1000
-        
         });
         // Send response for the successful login
         res.status(200).json(loginResponseDTO);
@@ -83,7 +82,7 @@ export const login = async (req, res) => {
             return res.status(401).json({ error: 'Password is incorrect.' });
         }
         res.status(500).json({
-            message: 'An unexpected error occurred. Please try again later.'
+            error: 'An unexpected error occurred. Please try again later.'
         });
         console.log(error);
     }
@@ -101,7 +100,7 @@ export const logout = async (req, res) => {
         res.status(200).json({ message: 'Logged out successfully' });
     } catch (error) {
         res.status(500).json({
-            message: 'An unexpected error occurred. Please try again later.'
+            error: 'An unexpected error occurred. Please try again later.'
         });
         console.log(error);
     }

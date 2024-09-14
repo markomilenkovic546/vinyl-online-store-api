@@ -90,7 +90,7 @@ export const createProductHandler = async (req, res) => {
         res.status(201).json(createProductResponseDTO);
     } catch (error) {
         res.status(500).json({
-            message: 'An unexpected error occurred. Please try again later.'
+            error: 'An unexpected error occurred. Please try again later.'
         });
         console.error(error.message);
     }
@@ -107,7 +107,7 @@ export const getProductByIdHandler = async (req, res) => {
             return res.status(404).json({ error: 'Product not found.' });
         }
         res.status(500).json({
-            message: 'An unexpected error occurred. Please try again later.'
+            error: 'An unexpected error occurred. Please try again later.'
         });
         console.error(error);
     }
