@@ -127,22 +127,26 @@ export const addAddressHandler = async (req, res) => {
         country,
         firstName,
         lastName,
+        company,
         streetAddress,
+        apartment,
         city,
         state,
-        postalCode
+        postalCode,
+        phone,
+        isDefault
     } = req.body;
 
     const errors = [];
 
     // Validate each field individually
-    if (!country) errors.push('Country is required.');
-    if (!firstName) errors.push('First name is required.');
-    if (!lastName) errors.push('Last name is required.');
-    if (!streetAddress) errors.push('Street Address is required.');
+    if (!country) errors.push('Country is required input.');
+    if (!firstName) errors.push('First name is required input.');
+    if (!lastName) errors.push('Last name is required input.');
+    if (!streetAddress) errors.push('Street Address is required input.');
     if (!city) errors.push('City is required.');
-    if (!state) errors.push('State is required.');
-    if (!postalCode) errors.push('Postal code is required.');
+    if (!state) errors.push('State is required input.');
+    if (!postalCode) errors.push('Postal code is required input.');
 
     if (errors.length > 0) {
         return res.status(400).json({ errors });
@@ -152,14 +156,21 @@ export const addAddressHandler = async (req, res) => {
         country,
         firstName,
         lastName,
+        company,
         streetAddress,
+        apartment,
         city,
         state,
-        postalCode
+        postalCode,
+        phone,
+        isDefault
     );
+    //console.log(addAddressRequestDTO);
     try {
-        const addedAddress = await addAddress(addAddressRequestDTO);
-        const addAddressResponseDTO = new AddAddressResponseDTO(addedAddress);
+        const user = await addAddress(req, res, addAddressRequestDTO);
+        const addAddressResponseDTO = new AddAddressResponseDTO(
+            user.addresses[user.addresses.length - 1]
+        );
         res.status(201).json(addAddressResponseDTO);
     } catch (error) {
         if (error.message === 'User not found.') {

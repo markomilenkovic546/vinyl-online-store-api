@@ -8,6 +8,7 @@ export class GetUserResponseDTO {
         this.birthday = userObject.birthday;
         this.recordsCollection = userObject.recordsCollection
         this.loyaltyPoints = userObject.loyaltyPoints
+        this.addresses = userObject.addresses
         this.createdAt = userObject.createdAt;
         this.updatedAt = userObject.updatedAt;
     }

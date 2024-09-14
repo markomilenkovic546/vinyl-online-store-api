@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import AddressSchema from '../models/address.js';
 
 export const registerUser = async (registerRequestDTO) => {
     const { firstName, lastName, email, password } = registerRequestDTO;
@@ -89,14 +90,26 @@ export const updateUser = async (req, res, updateUserRequestDTO) => {
 };
 
 export const addAddress = async (req, res, AddAddressRequestDTO) => {
-    
-        const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user?.id);
 
-        if (!user) {
-            throw new Error('User not found.');
-        }
-        user.addresses.push(AddAddressRequestDTO);
-        // Save the updated user document
-        await user.save();
-    
+    if (!user) {
+        throw new Error('User not found.');
+    }
+
+    /*If the new address is set as the default,
+  ensure all other addresses are marked as non-default */
+
+    if (AddAddressRequestDTO.isDefault) {
+        user.addresses.forEach((address) => {
+            if (address.isDefault) {
+                address.isDefault = false;
+            }
+        });
+    }
+    user.addresses.push(AddAddressRequestDTO);
+
+    // Save the updated user document
+    await user.save();
+    // Save the updated user document
+    return await user.save();
 };
