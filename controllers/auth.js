@@ -108,5 +108,5 @@ export const logout = async (req, res) => {
 };
 
 export const authCheckHandler = async (req, res) => {
-    res.status(200).json({ authenticated: true });
+    res.status(200).json({ authenticated: true, userId: req.user.id });
 };
