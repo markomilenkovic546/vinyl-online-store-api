@@ -4,7 +4,7 @@ export const verifyToken = async (req, res, next) => {
     try {
         let token = req.cookies.jwt;
         if (!token) {
-            return res.status(403).send({ error: 'Access Denied' });
+            return res.status(401).send({ error: 'Unauthorized' });
         }
 
         if (token.startsWith('Bearer ')) {
@@ -16,7 +16,9 @@ export const verifyToken = async (req, res, next) => {
         next();
     } catch (error) {
         if (error.message === 'invalid signature') {
-            return res.status(401).json({ error: 'Unauthorized' });
+            return res
+                .status(401)
+                .json({ error: 'Unauthorized'});
         }
         res.status(500).json({ error: error.message });
 

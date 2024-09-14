@@ -3,6 +3,7 @@ import { RegisterRequestDTO } from '../dtos/auth/RegisterRequestDTO.js';
 import { RegisterResponseDTO } from '../dtos/auth/RegisterResponseDTO.js';
 import { LoginRequestDTO } from '../dtos/auth/LoginRequestDTO.js';
 import { LoginResponseDTO } from '../dtos/auth/LoginResponseDTO.js';
+import { response } from 'express';
 
 /* REGISTER USER */
 export const register = async (req, res) => {
@@ -104,4 +105,8 @@ export const logout = async (req, res) => {
         });
         console.log(error);
     }
+};
+
+export const authCheckHandler = async (req, res) => {
+    res.status(200).json({ authenticated: true });
 };
