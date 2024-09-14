@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import AddressSchema from './address.js';
 
 const UserSchema = new mongoose.Schema({
     firstName: {
@@ -29,7 +30,7 @@ const UserSchema = new mongoose.Schema({
 
     birthday: {
         type: String,
-        default: '',
+        default: ''
     },
 
     recordsCollection: [
@@ -43,6 +44,12 @@ const UserSchema = new mongoose.Schema({
     loyaltyPoints: {
         type: Number,
         default: 0
+    },
+
+    addresses: [AddressSchema],
+    createdAt: {
+        type: Date,
+        default: Date.now
     },
 
     createdAt: {
