@@ -14,7 +14,15 @@ export const registerUser = async (registerRequestDTO) => {
         firstName,
         lastName,
         email,
-        password: passwordHash
+        password: passwordHash,
+        addresses:[
+            {
+                "firstName":firstName,
+                "lastName":lastName,
+                "isDefault": true
+            }
+        ]
+        
     });
 
     // Record a new user in db and return the result
