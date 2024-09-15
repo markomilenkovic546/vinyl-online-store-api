@@ -145,7 +145,6 @@ export const addAddressHandler = async (req, res) => {
     if (!lastName) errors.push('Last name is required input.');
     if (!streetAddress) errors.push('Street Address is required input.');
     if (!city) errors.push('City is required.');
-    if (!state) errors.push('State is required input.');
     if (!postalCode) errors.push('Postal code is required input.');
 
     if (errors.length > 0) {

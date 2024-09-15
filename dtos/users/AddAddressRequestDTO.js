@@ -19,7 +19,7 @@ export class AddAddressRequestDTO {
         this.streetAddress = streetAddress;
         this.apartment = apartment || '' ;
         this.city = city;
-        this.state = state;
+        this.state = state || '';
         this.postalCode = postalCode;
         this.phone = phone || '' ;
         this.isDefault = isDefault
