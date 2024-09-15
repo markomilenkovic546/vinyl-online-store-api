@@ -3,7 +3,8 @@ import mongoose from 'mongoose';
 const AddressSchema = new mongoose.Schema({
     country: {
         type: String,
-        required: true
+        trim: true,
+        default: ''
     },
     firstName: {
         type: String,
@@ -20,7 +21,8 @@ const AddressSchema = new mongoose.Schema({
     },
     streetAddress: {
         type: String,
-        required: true
+        trim: true,
+        default: ''
     },
     apartment: {
         type: String,
@@ -29,15 +31,18 @@ const AddressSchema = new mongoose.Schema({
     },
     city: {
         type: String,
-        required: true
+        trim: true,
+        default: ''
     },
     state: {
         type: String,
+        trim: true,
         default: ''
     },
     postalCode: {
         type: String,
-        required: true
+        trim: true,
+        default: ''
     },
     phone: {
         type: String,
