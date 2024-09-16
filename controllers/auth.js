@@ -4,7 +4,6 @@ import { RegisterResponseDTO } from '../dtos/auth/RegisterResponseDTO.js';
 import { LoginRequestDTO } from '../dtos/auth/LoginRequestDTO.js';
 import { LoginResponseDTO } from '../dtos/auth/LoginResponseDTO.js';
 
-
 /* REGISTER USER */
 export const register = async (req, res) => {
     try {
@@ -32,20 +31,10 @@ export const register = async (req, res) => {
 /* LOGGING IN */
 export const login = async (req, res) => {
     try {
-        // Destructure payload object received from the client
-        const { email, password } = req.body;
+        const payload = req.body;
 
-        // Validate mandatory fields
-        if (!email || !password) {
-            return res.status(400).json({
-                error: 'email and password are required fields.'
-            });
-        }
         // Instantiate LoginRequestDTO class to create an object to pass to the userService
-        const loginRequestDTO = new LoginRequestDTO({
-            email,
-            password
-        });
+        const loginRequestDTO = new LoginRequestDTO(payload);
 
         // Perform authentication
         const loggedInUser = await loginUser(loginRequestDTO);
