@@ -1,4 +1,4 @@
-import addAddressSchema from '../schemas/addAddressSchema.js';
+import addAddressSchema from '../schemas/addAddress.js';
 
 export function validateAddAddressPayload(req, res, next) {
     const { error } = addAddressSchema.validate(req.body, {

@@ -93,50 +93,13 @@ export const updateUserHandler = async (req, res) => {
 };
 
 export const addAddressHandler = async (req, res) => {
-    const {
-        country,
-        firstName,
-        lastName,
-        company,
-        streetAddress,
-        apartment,
-        city,
-        state,
-        postalCode,
-        phone,
-        isDefault
-    } = req.body;
+    const {id} = req.user
+    const payload = req.body;
 
-    const errors = [];
-
-    // Validate each field individually
-    if (!country) errors.push('Country is required input.');
-    if (!firstName) errors.push('First name is required input.');
-    if (!lastName) errors.push('Last name is required input.');
-    if (!streetAddress) errors.push('Street Address is required input.');
-    if (!city) errors.push('City is required.');
-    if (!postalCode) errors.push('Postal code is required input.');
-
-    if (errors.length > 0) {
-        return res.status(400).json({ errors });
-    }
-
-    const addAddressRequestDTO = new AddAddressRequestDTO(
-        country,
-        firstName,
-        lastName,
-        company,
-        streetAddress,
-        apartment,
-        city,
-        state,
-        postalCode,
-        phone,
-        isDefault
-    );
-    //console.log(addAddressRequestDTO);
+    const addAddressRequestDTO = new AddAddressRequestDTO(id, payload);
+    
     try {
-        const user = await addAddress(req, res, addAddressRequestDTO);
+        const user = await addAddress(addAddressRequestDTO);
         const addAddressResponseDTO = new AddAddressResponseDTO(
             user.addresses[user.addresses.length - 1]
         );

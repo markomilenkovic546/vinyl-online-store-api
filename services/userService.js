@@ -95,8 +95,8 @@ export const updateUser = async (req, res, updateUserRequestDTO) => {
     return await user.save();
 };
 
-export const addAddress = async (req, res, addAddressRequestDTO) => {
-    const user = await User.findById(req.user?.id);
+export const addAddress = async (addAddressRequestDTO) => {
+    const user = await User.findById(addAddressRequestDTO.id);
 
     if (!user) {
         throw new Error('User not found.');
