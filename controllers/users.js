@@ -39,32 +39,11 @@ export const getUserHandler = async (req, res) => {
 export const changePasswordHandler = async (req, res) => {
     // Get extracted user id from the access token
     const { id } = req.user;
-    const { currentPassword, newPassword } = req.body;
+    const payload = req.body;
     try {
-        // Mandatory input validation
-        if (!currentPassword || !newPassword) {
-            return res.status(400).json({
-                error: 'currentPassword and newPassword are required inputs.'
-            });
-        }
-        // Type validations
-        let typeValidationErrors = [];
-
-        if (typeof currentPassword !== 'string') {
-            typeValidationErrors.push('currentPassword must be a string.');
-        }
-        if (typeof newPassword !== 'string') {
-            typeValidationErrors.push('newPassword must be a string.');
-        }
-
-        if (typeValidationErrors.length > 0) {
-            return res.status(400).json({ error: typeValidationErrors });
-        }
-
         const changePasswordRequestDTO = new ChangePasswordRequestDTO(
             id,
-            currentPassword,
-            newPassword
+            payload
         );
         // Update password in db
         const user = await changePassword(req, res, changePasswordRequestDTO);
@@ -197,4 +176,4 @@ export const updateAddressesHandler = (req, res) => {
         phone,
         isDefault
     } = req.body;
-}
+};
