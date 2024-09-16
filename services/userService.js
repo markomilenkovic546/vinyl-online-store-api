@@ -125,6 +125,33 @@ export const updateUser = async (req, res, updateUserRequestDTO) => {
     return await user.save();
 };
 
+export const deleteProfileImage = async (id) => {
+    // Find the user by ID
+    const user = await User.findById(id);
+    if (!user) {
+        throw new Error('User not found.');
+    }
+    let filePath;
+    if (user.profileImage) {
+        // Construct the full file path
+        filePath = path.resolve(
+            __dirname,
+            '..',
+            'public',
+            user.profileImage.replace(/^\/+/, '')
+        );
+        // Check if the file exists before deleting
+        if (fs.existsSync(filePath)) {
+            await remove(filePath);
+        } else {
+            console.warn('File does not exist:', filePath);
+        }
+    }
+    // Record in db the path of the uploaded image
+    user.profileImage = '';
+    // Save the updated user
+    return await user.save();
+};
 export const addAddress = async (addAddressRequestDTO) => {
     const user = await User.findById(addAddressRequestDTO.id);
 
