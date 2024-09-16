@@ -1,7 +1,7 @@
 export class ChangePasswordRequestDTO {
-    constructor(id, currentPassword, newPassword) {
+    constructor(id, payload) {
         this.userId = id;
-        this.currentPassword = currentPassword;
-        this.newPassword = newPassword;
+        this.currentPassword = payload.currentPassword;
+        this.newPassword = payload.newPassword;
     }
 }
