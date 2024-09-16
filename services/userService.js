@@ -15,14 +15,13 @@ export const registerUser = async (registerRequestDTO) => {
         lastName,
         email,
         password: passwordHash,
-        addresses:[
+        addresses: [
             {
-                "firstName":firstName,
-                "lastName":lastName,
-                "isDefault": true
+                firstName: firstName,
+                lastName: lastName,
+                isDefault: true
             }
         ]
-        
     });
 
     // Record a new user in db and return the result
@@ -75,10 +74,10 @@ export const changePassword = async (changePasswordRequestDTO) => {
 };
 
 export const updateUser = async (req, res, updateUserRequestDTO) => {
-    const { userId, firstName, lastName, birthday } = updateUserRequestDTO;
+    const { id, firstName, lastName, birthday } = updateUserRequestDTO;
 
     // Find the user by ID
-    const user = await User.findById(userId);
+    const user = await User.findById(id);
     if (!user) {
         throw new Error('User not found.');
     }
@@ -93,8 +92,7 @@ export const updateUser = async (req, res, updateUserRequestDTO) => {
         user.profileImage = `/assets/profileImages/${req.file.filename}`;
     }
     // Save the updated user
-    await user.save();
-    return user;
+    return await user.save();
 };
 
 export const addAddress = async (req, res, addAddressRequestDTO) => {

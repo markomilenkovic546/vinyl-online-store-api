@@ -70,18 +70,9 @@ export const changePasswordHandler = async (req, res) => {
 
 export const updateUserHandler = async (req, res) => {
     const { id } = req.user;
-    const { firstName, lastName, birthday } = req.body;
+    const payload = req.body;
 
-    if (!firstName && !lastName && !birthday && !req.file) {
-        return res.status(400).json({ error: 'No input provided' });
-    }
-
-    const updateUserRequestDTO = new UpdateUserRequestDTO(
-        id,
-        firstName,
-        lastName,
-        birthday
-    );
+    const updateUserRequestDTO = new UpdateUserRequestDTO(id, payload);
 
     try {
         // Updated user in database

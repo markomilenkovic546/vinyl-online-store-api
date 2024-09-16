@@ -9,12 +9,13 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import authRoutes from './routes/auth.js'
-import usersRoutes from './routes/users.js'
-import productsRoutes from './routes/products.js'
+import authRoutes from './routes/auth.js';
+import usersRoutes from './routes/users.js';
+import productsRoutes from './routes/products.js';
 import { verifyToken } from './middleware/auth/auth.js';
 import { updateUserHandler } from './controllers/users.js';
 import { createProductHandler } from './controllers/products.js';
+import { validateUpdateUserPayload } from './middleware/user/payload-validation/updateUser.js';
 
 /* CONFIGURATIONS */
 const __filename = fileURLToPath(import.meta.url);
@@ -27,19 +28,27 @@ app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
 app.use(bodyParser.json({ limit: '30mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 app.use(cookieParser());
-app.use('/assets/profileImages', express.static(path.join(__dirname, 'public/assets/profileImages')));
-app.use('/assets/productImages', express.static(path.join(__dirname, 'public/assets/productImages')));
+app.use(
+    '/assets/profileImages',
+    express.static(path.join(__dirname, 'public/assets/profileImages'))
+);
+app.use(
+    '/assets/productImages',
+    express.static(path.join(__dirname, 'public/assets/productImages'))
+);
 
 const clientOrigin = process.env.CLIENT_ORIGIN;
-app.use(cors({
-    origin: clientOrigin,
-    credentials: true 
-}));
+app.use(
+    cors({
+        origin: clientOrigin,
+        credentials: true
+    })
+);
 
 /* FILE STORAGE FOR PROFILE IMAGES */
 const profileImageStorage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'public/assets/profileImages'); 
+        cb(null, 'public/assets/profileImages');
     },
     filename: function (req, file, cb) {
         cb(null, `${Date.now()}-${file.originalname}`);
@@ -51,7 +60,7 @@ const uploadProfileImage = multer({ storage: profileImageStorage });
 /* FILE STORAGE FOR PRODUCT IMAGES */
 const productImageStorage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'public/assets/productImages'); 
+        cb(null, 'public/assets/productImages');
     },
     filename: function (req, file, cb) {
         cb(null, `${Date.now()}-${file.originalname}`);
@@ -61,16 +70,28 @@ const productImageStorage = multer.diskStorage({
 const uploadProductImage = multer({ storage: productImageStorage });
 
 /* ROUTES WITH FILES */
-app.patch('/api/v1/user', verifyToken, uploadProfileImage.single('profileImage'), updateUserHandler);
-app.post('/api/v1/product', uploadProductImage.single('productImage'), createProductHandler);
-/* ROUTES */ 
-app.use('/api/v1/auth', authRoutes)
-app.use('/api/v1/user', usersRoutes)
-app.use('/api/v1/products', productsRoutes)
+app.patch(
+    '/api/v1/user',
+    verifyToken,
+    validateUpdateUserPayload,
+    uploadProfileImage.single('profileImage'),
+    updateUserHandler
+);
+app.post(
+    '/api/v1/product',
+    uploadProductImage.single('productImage'),
+    createProductHandler
+);
+/* ROUTES */
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/user', usersRoutes);
+app.use('/api/v1/products', productsRoutes);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
-mongoose.connect(process.env.MONGO_URL, {
-}).then(() =>{
-    app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
-}).catch((error) => console.log(error))
+mongoose
+    .connect(process.env.MONGO_URL, {})
+    .then(() => {
+        app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
+    })
+    .catch((error) => console.log(error));
