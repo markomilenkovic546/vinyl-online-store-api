@@ -12,7 +12,7 @@ import { fileURLToPath } from 'url';
 import authRoutes from './routes/auth.js'
 import usersRoutes from './routes/users.js'
 import productsRoutes from './routes/products.js'
-import { verifyToken } from './middleware/auth.js';
+import { verifyToken } from './middleware/auth/auth.js';
 import { updateUserHandler } from './controllers/users.js';
 import { createProductHandler } from './controllers/products.js';
 

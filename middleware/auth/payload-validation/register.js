@@ -1,4 +1,4 @@
-import registerSchema from '../schemas/register';
+import registerSchema from '../schemas/register.js';
 
 export function validateRegisterPayload(req, res, next) {
     // Validate the request body against the schema
