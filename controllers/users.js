@@ -2,7 +2,8 @@ import {
     getUserById,
     changePassword,
     updateUser,
-    addAddress
+    addAddress,
+    deleteProfileImage
 } from '../services/userService.js';
 import { GetUserResponseDTO } from '../dtos/users/GetUserResponseDTO.js';
 import { ChangePasswordRequestDTO } from '../dtos/users/ChangePasswordRequestDTO.js';
@@ -92,12 +93,30 @@ export const updateUserHandler = async (req, res) => {
     }
 };
 
+export const deleteProfileImageHandler = async (req, res) => {
+    const id = req.user.id;
+    try {
+        const updatedUser = await deleteProfileImage(id);
+        res.status(200).json({
+            message: 'Profile image successfully deleted.'
+        });
+    } catch (error) {
+        if (error.message === 'User not found.') {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.status(500).json({
+            error: 'An unexpected error occurred. Please try again later.'
+        });
+        console.error(error.message);
+    }
+};
+
 export const addAddressHandler = async (req, res) => {
-    const {id} = req.user
+    const { id } = req.user;
     const payload = req.body;
 
     const addAddressRequestDTO = new AddAddressRequestDTO(id, payload);
-    
+
     try {
         const user = await addAddress(addAddressRequestDTO);
         const addAddressResponseDTO = new AddAddressResponseDTO(
