@@ -5,7 +5,7 @@ import {
     logout,
     authCheckHandler
 } from '../controllers/auth.js';
-import { verifyToken } from '../middleware/auth.js';
+import { verifyToken } from '../middleware/auth/auth.js';
 
 const router = express.Router();
 router.post('/login', login);
