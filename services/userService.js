@@ -1,7 +1,12 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
-import AddressSchema from '../models/address.js';
+import fs from 'fs-extra';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { remove } from 'fs-extra';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export const registerUser = async (registerRequestDTO) => {
     const { firstName, lastName, email, password } = registerRequestDTO;
@@ -87,10 +92,35 @@ export const updateUser = async (req, res, updateUserRequestDTO) => {
     if (lastName) user.lastName = lastName;
     if (birthday) user.birthday = birthday;
 
-    // If a new profile image is uploaded, update the profileImage field
+    // If a new profile image is uploaded, delete current image(if exists) and update the profileImage field
     if (req.file) {
+        let filePath;
+        if (user.profileImage) {
+            // Construct the full file path
+            filePath = path.resolve(
+                __dirname,
+                '..',
+                'public',
+                user.profileImage.replace(/^\/+/, '')
+            );
+            // Check if the file exists before deleting
+            if (fs.existsSync(filePath)) {
+                try {
+                    // Remove image file
+                    await remove(filePath);
+                    console.log('Image deleted successfully');
+                } catch (error) {
+                    console.error('Failed to delete profile image:', error);
+                    throw new Error(error);
+                }
+            } else {
+                console.warn('File does not exist:', filePath);
+            }
+        }
+        // Record in db the path of the uploaded image
         user.profileImage = `/assets/profileImages/${req.file.filename}`;
     }
+
     // Save the updated user
     return await user.save();
 };
