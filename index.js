@@ -16,6 +16,7 @@ import { verifyToken } from './middleware/auth/auth.js';
 import { updateUserHandler } from './controllers/users.js';
 import { createProductHandler } from './controllers/products.js';
 import { validateUpdateUserPayload } from './middleware/user/payload-validation/updateUser.js';
+import { validateCreateProductPayload } from './middleware/products/payload-validation/createProduct.js';
 
 /* CONFIGURATIONS */
 const __filename = fileURLToPath(import.meta.url);
@@ -80,6 +81,7 @@ app.patch(
 app.post(
     '/api/v1/product',
     uploadProductImage.single('productImage'),
+    validateCreateProductPayload,
     createProductHandler
 );
 /* ROUTES */
