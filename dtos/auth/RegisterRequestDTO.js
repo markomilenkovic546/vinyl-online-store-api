@@ -1,8 +1,8 @@
 export class RegisterRequestDTO {
-    constructor({ firstName, lastName, email, password }) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
+    constructor(payload) {
+        this.firstName = payload.firstName;
+        this.lastName = payload.lastName;
+        this.email = payload.email;
+        this.password = payload.password;
     }
 }

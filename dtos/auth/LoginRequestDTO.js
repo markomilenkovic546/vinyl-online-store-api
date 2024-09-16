@@ -1,6 +1,6 @@
 export class LoginRequestDTO {
-    constructor({ email, password }) {
-        this.email = email;
-        this.password = password;
+    constructor(payload) {
+        this.email = payload.email;
+        this.password = payload.password;
     }
 }
