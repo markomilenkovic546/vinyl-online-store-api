@@ -1,27 +1,16 @@
 export class AddAddressRequestDTO {
-    constructor(
-        country,
-        firstName,
-        lastName,
-        company,
-        streetAddress,
-        apartment,
-        city,
-        state,
-        postalCode,
-        phone,
-        isDefault
-    ) {
-        this.country = country;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.company = company || '' ;
-        this.streetAddress = streetAddress;
-        this.apartment = apartment || '' ;
-        this.city = city;
-        this.state = state || '';
-        this.postalCode = postalCode;
-        this.phone = phone || '' ;
-        this.isDefault = isDefault
+    constructor(id, payload) {
+        this.id = id;
+        this.country = payload.country;
+        this.firstName = payload.firstName;
+        this.lastName = payload.lastName;
+        this.company = payload.company || '' ;
+        this.streetAddress = payload.streetAddress;
+        this.apartment = payload.apartment || '' ;
+        this.city = payload.city;
+        this.state = payload.state || '';
+        this.postalCode = payload.postalCode;
+        this.phone = payload.phone || '' ;
+        this.isDefault = payload.isDefault
     }
 }

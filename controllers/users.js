@@ -39,32 +39,11 @@ export const getUserHandler = async (req, res) => {
 export const changePasswordHandler = async (req, res) => {
     // Get extracted user id from the access token
     const { id } = req.user;
-    const { currentPassword, newPassword } = req.body;
+    const payload = req.body;
     try {
-        // Mandatory input validation
-        if (!currentPassword || !newPassword) {
-            return res.status(400).json({
-                error: 'currentPassword and newPassword are required inputs.'
-            });
-        }
-        // Type validations
-        let typeValidationErrors = [];
-
-        if (typeof currentPassword !== 'string') {
-            typeValidationErrors.push('currentPassword must be a string.');
-        }
-        if (typeof newPassword !== 'string') {
-            typeValidationErrors.push('newPassword must be a string.');
-        }
-
-        if (typeValidationErrors.length > 0) {
-            return res.status(400).json({ error: typeValidationErrors });
-        }
-
         const changePasswordRequestDTO = new ChangePasswordRequestDTO(
             id,
-            currentPassword,
-            newPassword
+            payload
         );
         // Update password in db
         const user = await changePassword(req, res, changePasswordRequestDTO);
@@ -91,18 +70,9 @@ export const changePasswordHandler = async (req, res) => {
 
 export const updateUserHandler = async (req, res) => {
     const { id } = req.user;
-    const { firstName, lastName, birthday } = req.body;
+    const payload = req.body;
 
-    if (!firstName && !lastName && !birthday && !req.file) {
-        return res.status(400).json({ error: 'No input provided' });
-    }
-
-    const updateUserRequestDTO = new UpdateUserRequestDTO(
-        id,
-        firstName,
-        lastName,
-        birthday
-    );
+    const updateUserRequestDTO = new UpdateUserRequestDTO(id, payload);
 
     try {
         // Updated user in database
@@ -123,50 +93,13 @@ export const updateUserHandler = async (req, res) => {
 };
 
 export const addAddressHandler = async (req, res) => {
-    const {
-        country,
-        firstName,
-        lastName,
-        company,
-        streetAddress,
-        apartment,
-        city,
-        state,
-        postalCode,
-        phone,
-        isDefault
-    } = req.body;
+    const {id} = req.user
+    const payload = req.body;
 
-    const errors = [];
-
-    // Validate each field individually
-    if (!country) errors.push('Country is required input.');
-    if (!firstName) errors.push('First name is required input.');
-    if (!lastName) errors.push('Last name is required input.');
-    if (!streetAddress) errors.push('Street Address is required input.');
-    if (!city) errors.push('City is required.');
-    if (!postalCode) errors.push('Postal code is required input.');
-
-    if (errors.length > 0) {
-        return res.status(400).json({ errors });
-    }
-
-    const addAddressRequestDTO = new AddAddressRequestDTO(
-        country,
-        firstName,
-        lastName,
-        company,
-        streetAddress,
-        apartment,
-        city,
-        state,
-        postalCode,
-        phone,
-        isDefault
-    );
-    //console.log(addAddressRequestDTO);
+    const addAddressRequestDTO = new AddAddressRequestDTO(id, payload);
+    
     try {
-        const user = await addAddress(req, res, addAddressRequestDTO);
+        const user = await addAddress(addAddressRequestDTO);
         const addAddressResponseDTO = new AddAddressResponseDTO(
             user.addresses[user.addresses.length - 1]
         );
@@ -181,4 +114,20 @@ export const addAddressHandler = async (req, res) => {
         });
         console.error(error.message);
     }
+};
+
+export const updateAddressesHandler = (req, res) => {
+    const {
+        country,
+        firstName,
+        lastName,
+        company,
+        streetAddress,
+        apartment,
+        city,
+        state,
+        postalCode,
+        phone,
+        isDefault
+    } = req.body;
 };

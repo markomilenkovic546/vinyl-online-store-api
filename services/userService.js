@@ -15,14 +15,13 @@ export const registerUser = async (registerRequestDTO) => {
         lastName,
         email,
         password: passwordHash,
-        addresses:[
+        addresses: [
             {
-                "firstName":firstName,
-                "lastName":lastName,
-                "isDefault": true
+                firstName: firstName,
+                lastName: lastName,
+                isDefault: true
             }
         ]
-        
     });
 
     // Record a new user in db and return the result
@@ -53,7 +52,7 @@ export const getUserById = async (userId) => {
     return user;
 };
 
-export const changePassword = async (req, res, changePasswordRequestDTO) => {
+export const changePassword = async (changePasswordRequestDTO) => {
     const { userId, currentPassword, newPassword } = changePasswordRequestDTO;
     const user = await User.findById(userId);
     if (!user) {
@@ -75,10 +74,10 @@ export const changePassword = async (req, res, changePasswordRequestDTO) => {
 };
 
 export const updateUser = async (req, res, updateUserRequestDTO) => {
-    const { userId, firstName, lastName, birthday } = updateUserRequestDTO;
+    const { id, firstName, lastName, birthday } = updateUserRequestDTO;
 
     // Find the user by ID
-    const user = await User.findById(userId);
+    const user = await User.findById(id);
     if (!user) {
         throw new Error('User not found.');
     }
@@ -93,12 +92,11 @@ export const updateUser = async (req, res, updateUserRequestDTO) => {
         user.profileImage = `/assets/profileImages/${req.file.filename}`;
     }
     // Save the updated user
-    await user.save();
-    return user;
+    return await user.save();
 };
 
-export const addAddress = async (req, res, AddAddressRequestDTO) => {
-    const user = await User.findById(req.user?.id);
+export const addAddress = async (addAddressRequestDTO) => {
+    const user = await User.findById(addAddressRequestDTO.id);
 
     if (!user) {
         throw new Error('User not found.');
@@ -107,17 +105,15 @@ export const addAddress = async (req, res, AddAddressRequestDTO) => {
     /*If the new address is set as the default,
   ensure all other addresses are marked as non-default */
 
-    if (AddAddressRequestDTO.isDefault) {
+    if (addAddressRequestDTO.isDefault) {
         user.addresses.forEach((address) => {
             if (address.isDefault) {
                 address.isDefault = false;
             }
         });
     }
-    user.addresses.push(AddAddressRequestDTO);
+    user.addresses.push(addAddressRequestDTO);
 
-    // Save the updated user document
-    await user.save();
     // Save the updated user document
     return await user.save();
 };
