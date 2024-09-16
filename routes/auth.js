@@ -1,4 +1,5 @@
 import express from 'express';
+import { validateRegisterPayload } from '../middleware/auth/payload-validation/register.js';
 import {
     register,
     login,
@@ -9,7 +10,7 @@ import { verifyToken } from '../middleware/auth/auth.js';
 
 const router = express.Router();
 router.post('/login', login);
-router.post('/register', register);
+router.post('/register',validateRegisterPayload, register);
 router.post('/logout', logout);
 router.get('/check-auth', verifyToken, authCheckHandler);
 
