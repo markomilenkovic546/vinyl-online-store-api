@@ -182,3 +182,19 @@ export const addAddressHandler = async (req, res) => {
         console.error(error.message);
     }
 };
+
+export const updateAddressesHandler = (req, res) => {
+    const {
+        country,
+        firstName,
+        lastName,
+        company,
+        streetAddress,
+        apartment,
+        city,
+        state,
+        postalCode,
+        phone,
+        isDefault
+    } = req.body;
+}

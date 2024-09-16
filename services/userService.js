@@ -97,7 +97,7 @@ export const updateUser = async (req, res, updateUserRequestDTO) => {
     return user;
 };
 
-export const addAddress = async (req, res, AddAddressRequestDTO) => {
+export const addAddress = async (req, res, addAddressRequestDTO) => {
     const user = await User.findById(req.user?.id);
 
     if (!user) {
@@ -107,17 +107,15 @@ export const addAddress = async (req, res, AddAddressRequestDTO) => {
     /*If the new address is set as the default,
   ensure all other addresses are marked as non-default */
 
-    if (AddAddressRequestDTO.isDefault) {
+    if (addAddressRequestDTO.isDefault) {
         user.addresses.forEach((address) => {
             if (address.isDefault) {
                 address.isDefault = false;
             }
         });
     }
-    user.addresses.push(AddAddressRequestDTO);
+    user.addresses.push(addAddressRequestDTO);
 
-    // Save the updated user document
-    await user.save();
     // Save the updated user document
     return await user.save();
 };
