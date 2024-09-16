@@ -53,7 +53,7 @@ export const getUserById = async (userId) => {
     return user;
 };
 
-export const changePassword = async (req, res, changePasswordRequestDTO) => {
+export const changePassword = async (changePasswordRequestDTO) => {
     const { userId, currentPassword, newPassword } = changePasswordRequestDTO;
     const user = await User.findById(userId);
     if (!user) {
