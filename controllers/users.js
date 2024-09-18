@@ -12,6 +12,10 @@ import { UpdateUserRequestDTO } from '../dtos/users/UpdateUserRequestDTO.js';
 import { UpdateUserResponseDTO } from '../dtos/users/UpdateUserResponseDTO.js';
 import { AddAddressRequestDTO } from '../dtos/users/AddAddressRequestDTO.js';
 import { AddAddressResponseDTO } from '../dtos/users/AddAddressResponseDTO.js';
+import { UpdateAddressRequestDTO } from '../dtos/users/UpdateAddressRequestDTO.js';
+import { UpdateAddressResponseDTO } from '../dtos/users/UpdateAddressResponseDTO.js';
+import { updateAddress } from '../services/userService.js';
+
 // Controller function to handle the GET /user/:id route
 export const getUserHandler = async (req, res) => {
     // Get extracted user id from the access token
@@ -135,18 +139,30 @@ export const addAddressHandler = async (req, res) => {
     }
 };
 
-export const updateAddressesHandler = (req, res) => {
-    const {
-        country,
-        firstName,
-        lastName,
-        company,
-        streetAddress,
-        apartment,
-        city,
-        state,
-        postalCode,
-        phone,
-        isDefault
-    } = req.body;
+export const updateAddressesHandler = async (req, res) => {
+    const payload = req.body;
+    const updateAddressRequestDTO = new UpdateAddressRequestDTO(payload);
+
+    try {
+        const updatedAddress = await updateAddress(
+            req,
+            res,
+            updateAddressRequestDTO
+        );
+        const updateAddressResponseDTO = new updateAddressResponseDTO(
+            updatedAddress
+        );
+        res.status(201).json(updateAddressResponseDTO);
+    } catch (error) {
+        if (
+            error.message ==
+            'You can update isDefault from true to false only by setting other address to be default'
+        ) {
+            return res.status(400).json({ error: error.message });
+        }
+        res.status(500).json({
+            error: 'An unexpected error occurred. Please try again later.'
+        });
+        console.error(error.message);
+    }
 };
