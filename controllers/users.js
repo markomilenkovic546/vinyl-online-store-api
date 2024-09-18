@@ -3,7 +3,8 @@ import {
     changePassword,
     updateUser,
     addAddress,
-    deleteProfileImage
+    deleteProfileImage,
+    deleteAddress
 } from '../services/userService.js';
 import { GetUserResponseDTO } from '../dtos/users/GetUserResponseDTO.js';
 import { ChangePasswordRequestDTO } from '../dtos/users/ChangePasswordRequestDTO.js';
@@ -159,6 +160,30 @@ export const updateAddressesHandler = async (req, res) => {
             'You can update isDefault from true to false only by setting other address to be default'
         ) {
             return res.status(400).json({ error: error.message });
+        }
+
+        if (error.message === 'User not found.') {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.status(500).json({
+            error: 'An unexpected error occurred. Please try again later.'
+        });
+        console.error(error.message);
+    }
+};
+
+export const deleteAddressHandler = async (req, res) => {
+    try {
+        const deleted = await deleteAddress(req, res);
+        if (deleted) {
+            res.status(200).json({ message: 'Address successfully deleted.' });
+        }
+    } catch (error) {
+        if (error.message === 'User not found.') {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        if (error.message === 'Address not found.') {
+            return res.status(404).json({ error: 'Address not found' });
         }
         res.status(500).json({
             error: 'An unexpected error occurred. Please try again later.'

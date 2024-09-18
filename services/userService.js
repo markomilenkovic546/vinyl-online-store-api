@@ -194,6 +194,11 @@ export const updateAddress = async (req, res, updateAddressRequestDTO) => {
     };
     // Get user address that has to be updated
     const user = await User.findById(userId);
+
+    if (!user) {
+        throw new Error('User not found.');
+    }
+
     const address = user.addresses.find(
         (addr) => addr._id.toString() === addressId
     );
@@ -227,4 +232,45 @@ export const updateAddress = async (req, res, updateAddressRequestDTO) => {
     );
 
     return updatedAddress;
+};
+
+
+
+export const deleteAddress = async (req, res) => {
+    const userId = req.user.id;
+    const addressId = req.params.id;
+
+    // Find the user
+    const user = await User.findOne({ _id: userId });
+
+    if (!user) {
+        throw new Error('User not found.');
+    }
+
+    // Check if the address exists in the user's addresses
+    const addressToDelete = user.addresses.find(
+        (address) => address._id.toString() === addressId
+    );
+
+    if (!addressToDelete) {
+        throw new Error('Address not found.');
+    }
+
+    // If address that has to be deleted is default address, set first other address to default one
+    const addressToSetToDefault = user.addresses.find(
+        (address) => address._id.toString() !== addressId
+    );
+
+    if (addressToSetToDefault) {
+        addressToSetToDefault.isDefault = true;
+    }
+    await user.save();
+
+    // Delete address
+    const deletingInfo = await User.updateOne(
+        { _id: userId },
+        { $pull: { addresses: { _id: addressId } } }
+    );
+
+    return deletingInfo.modifiedCount;
 };

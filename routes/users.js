@@ -1,5 +1,5 @@
 import express from 'express';
-import { getUserHandler, changePasswordHandler, deleteProfileImageHandler } from '../controllers/users.js';
+import { getUserHandler, changePasswordHandler, deleteProfileImageHandler, deleteAddressHandler } from '../controllers/users.js';
 import { verifyToken } from '../middleware/auth/auth.js';
 import { validateChangePasswordPayload } from '../middleware/user/payload-validation/changePassword.js';
 import { validateAddAddressPayload } from '../middleware/user/payload-validation/addAddress.js';
@@ -24,6 +24,8 @@ router.post(
 );
 
 router.put('/address/:id', verifyToken, validateUpdateAddressPayload, updateAddressesHandler)
+
+router.delete('/address/:id', verifyToken, deleteAddressHandler)
 
 router.delete('/delete-profile-image', verifyToken, deleteProfileImageHandler)
 
