@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import mongoose from 'mongoose';
 import fs from 'fs-extra';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -173,4 +174,57 @@ export const addAddress = async (addAddressRequestDTO) => {
 
     // Save the updated user document
     return await user.save();
+};
+
+export const updateAddress = async (req, res, updateAddressRequestDTO) => {
+    const userId = req.user.id;
+    const addressId = req.params.id;
+    const updateData = {
+        'addresses.$.country': updateAddressRequestDTO.country,
+        'addresses.$.firstName': updateAddressRequestDTO.firstName,
+        'addresses.$.lastName': updateAddressRequestDTO.lastName,
+        'addresses.$.company': updateAddressRequestDTO.company || '',
+        'addresses.$.streetAddress': updateAddressRequestDTO.streetAddress,
+        'addresses.$.apartment': updateAddressRequestDTO.apartment || '',
+        'addresses.$.city': updateAddressRequestDTO.city,
+        'addresses.$.state': updateAddressRequestDTO.state || '',
+        'addresses.$.postalCode': updateAddressRequestDTO.postalCode,
+        'addresses.$.phone': updateAddressRequestDTO.phone || '',
+        'addresses.$.isDefault': updateAddressRequestDTO.isDefault
+    };
+    // Get user address that has to be updated
+    const user = await User.findById(userId);
+    const address = user.addresses.find(
+        (addr) => addr._id.toString() === addressId
+    );
+
+    if (!updateAddressRequestDTO.isDefault && address.isDefault) {
+        throw new Error(
+            'You can update isDefault from true to false only by setting other address to be default'
+        );
+    }
+
+    // If user wants to update address to be default, update current default address
+    if (address) {
+        user.addresses.forEach((address) => {
+            if (address.isDefault) {
+                address.isDefault = false;
+            }
+        });
+    }
+    await user.save();
+
+    // Update address
+    await User.updateOne(
+        { _id: userId, 'addresses._id': addressId },
+        { $set: updateData }
+    );
+
+    // Get updated address
+    const updatedUser = await User.findById(userId);
+    const updatedAddress = updatedUser.addresses.find(
+        (addr) => addr._id.toString() === addressId
+    );
+
+    return updatedAddress;
 };
