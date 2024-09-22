@@ -50,3 +50,5 @@ export const getProductByIdHandler = async (req, res) => {
         console.error(error);
     }
 };
+
+

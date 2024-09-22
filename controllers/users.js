@@ -150,7 +150,7 @@ export const updateAddressesHandler = async (req, res) => {
             res,
             updateAddressRequestDTO
         );
-        const updateAddressResponseDTO = new updateAddressResponseDTO(
+        const updateAddressResponseDTO = new UpdateAddressResponseDTO(
             updatedAddress
         );
         res.status(201).json(updateAddressResponseDTO);
@@ -164,6 +164,10 @@ export const updateAddressesHandler = async (req, res) => {
 
         if (error.message === 'User not found.') {
             return res.status(404).json({ error: 'User not found' });
+        }
+
+        if (error.message === 'Address not found.') {
+            return res.status(404).json({ error: 'Address not found' });
         }
         res.status(500).json({
             error: 'An unexpected error occurred. Please try again later.'
