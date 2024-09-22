@@ -192,6 +192,7 @@ export const updateAddress = async (req, res, updateAddressRequestDTO) => {
         'addresses.$.phone': updateAddressRequestDTO.phone || '',
         'addresses.$.isDefault': updateAddressRequestDTO.isDefault
     };
+
     // Get user address that has to be updated
     const user = await User.findById(userId);
 
@@ -203,6 +204,9 @@ export const updateAddress = async (req, res, updateAddressRequestDTO) => {
         (addr) => addr._id.toString() === addressId
     );
 
+    if (!address) {
+        throw new Error('Address not found.');
+    }
     if (!updateAddressRequestDTO.isDefault && address.isDefault) {
         throw new Error(
             'You can update isDefault from true to false only by setting other address to be default'
@@ -233,8 +237,6 @@ export const updateAddress = async (req, res, updateAddressRequestDTO) => {
 
     return updatedAddress;
 };
-
-
 
 export const deleteAddress = async (req, res) => {
     const userId = req.user.id;
