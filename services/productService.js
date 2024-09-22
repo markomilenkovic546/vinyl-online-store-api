@@ -17,3 +17,4 @@ export const getProductById = async (id) => {
 
     return product;
 };
+
