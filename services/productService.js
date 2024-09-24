@@ -18,3 +18,22 @@ export const getProductById = async (id) => {
     return product;
 };
 
+export const getProducts = async (req, res) => {
+    const { artist, genre, decade, featured, inStock, sortBy, order } =
+        req.query;
+
+    // Build filter object
+    const filter = {};
+    if (artist) filter.artist = artist;
+    if (decade) filter.decade = decade;
+    if (genre) filter.genre = genre;
+    if (featured) filter.featured = featured === 'true';
+    if (inStock) filter.inStock = inStock === 'true';
+    // Build sort object
+    const sort = {};
+    if (sortBy) {
+        sort[sortBy] = order === 'desc' ? -1 : 1;
+    }
+    // Fetch products from the database
+    return await Product.find(filter).sort(sort);
+};
