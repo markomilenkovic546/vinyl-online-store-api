@@ -52,7 +52,7 @@ export const changePasswordHandler = async (req, res) => {
             payload
         );
         // Update password in db
-        const user = await changePassword(req, res, changePasswordRequestDTO);
+        const user = await changePassword(changePasswordRequestDTO);
         if (user) {
             // Sanitize data and prepare for response
             const changePasswordResponseDTO = new ChangePasswordResponseDTO(
