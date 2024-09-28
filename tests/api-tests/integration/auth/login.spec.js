@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { createRandomUserData } from '../../../data-factory/user.js';
-import { registerUser } from '../../../utils.js';
+import { registerUser, deleteUser } from '../../../utils.js';
 
 test.describe('POST /api/v1/auth/login', () => {
     let payload;
@@ -9,6 +9,7 @@ test.describe('POST /api/v1/auth/login', () => {
         // Register user
         await registerUser(request, payload);
     });
+
     test('should successfully login', async ({ request }) => {
         // Login to registered account
         const response = await request.post(`/api/v1/auth/login`, {
@@ -24,5 +25,4 @@ test.describe('POST /api/v1/auth/login', () => {
         expect(responseBody.firstName).toBe(payload.firstName);
         expect(responseBody.lastName).toBe(payload.lastName);
     });
-
 });
