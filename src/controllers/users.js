@@ -4,7 +4,8 @@ import {
     updateUser,
     addAddress,
     deleteProfileImage,
-    deleteAddress
+    deleteAddress,
+    deleteUser
 } from '../services/userService.js';
 import { GetUserResponseDTO } from '../dtos/users/GetUserResponseDTO.js';
 import { ChangePasswordRequestDTO } from '../dtos/users/ChangePasswordRequestDTO.js';
@@ -38,7 +39,7 @@ export const getUserHandler = async (req, res) => {
         res.status(500).json({
             error: 'An unexpected error occurred. Please try again later.'
         });
-        console.log(error.message);
+        console.error(error.message);
     }
 };
 
@@ -70,7 +71,7 @@ export const changePasswordHandler = async (req, res) => {
         res.status(500).json({
             error: 'An unexpected error occurred. Please try again later.'
         });
-        console.log(error.message);
+        console.error(error.message);
     }
 };
 
@@ -189,6 +190,18 @@ export const deleteAddressHandler = async (req, res) => {
         if (error.message === 'Address not found.') {
             return res.status(404).json({ error: 'Address not found' });
         }
+        res.status(500).json({
+            error: 'An unexpected error occurred. Please try again later.'
+        });
+        console.error(error.message);
+    }
+};
+
+export const deleteUserHandler = async (req, res) => {
+    try {
+        const deleted = await deleteUser(req, res);
+        res.status(200).json({ message: 'User successfully deleted' });
+    } catch (error) {
         res.status(500).json({
             error: 'An unexpected error occurred. Please try again later.'
         });

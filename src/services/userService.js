@@ -276,3 +276,13 @@ export const deleteAddress = async (req, res) => {
 
     return deletingInfo.modifiedCount;
 };
+
+export const deleteUser = async (req, res) => {
+    const userId = req.user.id;
+    if (!userId) {
+        throw new Error('userId is not valid');
+    }
+    const result = await User.deleteOne({ _id: userId });
+    console.log('Delete result:', result);
+    return result;
+};
