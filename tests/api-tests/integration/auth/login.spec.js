@@ -10,6 +10,11 @@ test.describe('POST /api/v1/auth/login', () => {
         await registerUser(request, payload);
     });
 
+    test.afterEach(async ({ request }) => {
+        // Delete user from db
+        await deleteUser(request);
+    });
+
     test('should successfully login', async ({ request }) => {
         // Login to registered account
         const response = await request.post(`/api/v1/auth/login`, {

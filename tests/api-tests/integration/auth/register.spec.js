@@ -1,9 +1,14 @@
 import { test, expect } from '@playwright/test';
 import { createRandomUserData } from '../../../data-factory/user.js';
-
+import { login, deleteUser } from '../../../utils.js';
 test.describe('POST /api/v1/auth/register', () => {
+    let payload;
+    
+    test.beforeEach(async () => {
+        payload = createRandomUserData();
+    });
+
     test('should register new user', async ({ request }) => {
-        const payload = createRandomUserData();
         const response = await request.post(`/api/v1/auth/register`, {
             data: payload
         });
@@ -14,12 +19,16 @@ test.describe('POST /api/v1/auth/register', () => {
         expect(responseBody.email).toBe(payload.email);
         expect(responseBody.firstName).toBe(payload.firstName);
         expect(responseBody.lastName).toBe(payload.lastName);
+
+        // Login to registered account
+        await login(request, payload);
+        // Delete user from db
+        await deleteUser(request);
     });
 
     test('should not register user with already registered email', async ({
         request
     }) => {
-        const payload = createRandomUserData();
         // Register user
         await request.post(`/api/v1/auth/register`, {
             data: payload
@@ -36,7 +45,6 @@ test.describe('POST /api/v1/auth/register', () => {
     test('should not register user with no provided email input', async ({
         request
     }) => {
-        const payload = createRandomUserData();
         delete payload.email;
         // Register user
         const response = await request.post(`/api/v1/auth/register`, {
@@ -50,7 +58,6 @@ test.describe('POST /api/v1/auth/register', () => {
     test('should not register user with no provided password input', async ({
         request
     }) => {
-        const payload = createRandomUserData();
         delete payload.password;
         // Register user
         const response = await request.post(`/api/v1/auth/register`, {
@@ -64,7 +71,6 @@ test.describe('POST /api/v1/auth/register', () => {
     test('should not register user with no provided first name input', async ({
         request
     }) => {
-        const payload = createRandomUserData();
         delete payload.firstName;
         // Register user
         const response = await request.post(`/api/v1/auth/register`, {
@@ -78,7 +84,6 @@ test.describe('POST /api/v1/auth/register', () => {
     test('should not register user with no provided last name input', async ({
         request
     }) => {
-        const payload = createRandomUserData();
         delete payload.lastName;
         // Register user
         const response = await request.post(`/api/v1/auth/register`, {
