@@ -5,8 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js"
+    "dev": "nodemon ./src/index.js"
   },
   "keywords": [],
   "author": "Marko Milenkovic",
@@ -29,6 +28,9 @@
     "multer-gridfs-storage": "^5.0.2"
   },
   "devDependencies": {
+    "@faker-js/faker": "^9.0.3",
+    "@playwright/test": "^1.47.2",
+    "@types/node": "^22.7.4",
     "nodemon": "^3.1.4",
     "prettier": "^3.3.3"
   }
