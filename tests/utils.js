@@ -7,7 +7,7 @@ export async function registerUser(request, payload) {
         throw new Error(`Registration failed: ${response.status()}`);
     }
 
-    return response.json();
+    return response;
 }
 
 export async function login(request, payload) {
@@ -19,7 +19,7 @@ export async function login(request, payload) {
         throw new Error(`Login failed: ${response.status()}`);
     }
 
-    return response.json();
+    return response;
 }
 
 export async function deleteUser(request, payload) {
@@ -31,5 +31,5 @@ export async function deleteUser(request, payload) {
         throw new Error(`User delete failed: ${response.status()}`);
     }
 
-    return response.json();
+    return response;
 }
