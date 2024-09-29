@@ -11,7 +11,7 @@ test.describe('POST /api/v1/auth/register', () => {
 
     test(
         'should register new user',
-        { tag: ['@smoke', '@register'] },
+        { tag: ['@smoke', '@positive', '@register'] },
         async ({ request }) => {
             const response = await request.post(`/api/v1/auth/register`, {
                 data: payload
@@ -33,7 +33,7 @@ test.describe('POST /api/v1/auth/register', () => {
 
     test(
         'should not register user with already registered email',
-        { tag: ['@register'] },
+        { tag: ['@register', '@negative'] },
         async ({ request }) => {
             // Register user
             await request.post(`/api/v1/auth/register`, {
@@ -51,7 +51,7 @@ test.describe('POST /api/v1/auth/register', () => {
 
     test(
         'should not register user with no provided email input',
-        { tag: ['@register'] },
+        { tag: ['@register', '@negative'] },
         async ({ request }) => {
             delete payload.email;
             // Register user
@@ -66,7 +66,7 @@ test.describe('POST /api/v1/auth/register', () => {
 
     test(
         'should not register user with no provided password input',
-        { tag: ['@register'] },
+        { tag: ['@register', '@negative'] },
         async ({ request }) => {
             delete payload.password;
             // Register user

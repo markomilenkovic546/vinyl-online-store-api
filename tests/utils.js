@@ -22,7 +22,9 @@ export async function login(request, payload) {
     return response.json();
 }
 
-export async function deleteUser(request) {
+export async function deleteUser(request, payload) {
+    // Login to account
+    await login(request, payload);
     const response = await request.delete('/api/v1/user');
 
     if (!response.ok()) {
