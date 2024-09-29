@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { createRandomUserData } from '../../../data-factory/user.js';
 import { login, deleteUser } from '../../../utils.js';
+
 test.describe('POST /api/v1/auth/register', () => {
     let payload;
     
