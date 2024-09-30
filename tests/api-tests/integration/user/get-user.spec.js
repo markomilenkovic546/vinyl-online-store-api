@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { createRandomUserData } from '../../../data-factory/user.js';
-import { registerUser, login, deleteUser } from '../../../utils.js';
+import { registerUser, login, logout, deleteUser } from '../../../utils.js';
 
-test.describe('POST /api/v1/user', () => {
+test.describe('GET /api/v1/user', () => {
     let payload;
     test.beforeEach(async ({ request }) => {
         payload = createRandomUserData();
@@ -54,6 +54,20 @@ test.describe('POST /api/v1/user', () => {
                 createdAt: expect.any(String),
                 updatedAt: expect.any(String)
             });
+        }
+    );
+
+    test(
+        'should not get a user data without access token',
+        { tag: ['@negative', '@user'] },
+        async ({ request }) => {
+            // Logout user
+            await logout(request, payload);
+            // Get user data
+            const userResponse = await request.get(`/api/v1/user`);
+            expect(userResponse.status()).toBe(401);
+            const responseBody = await userResponse.json();
+            expect(responseBody).toMatchObject({ error: 'Unauthorized' });
         }
     );
 });
