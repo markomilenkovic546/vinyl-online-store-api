@@ -23,10 +23,10 @@ test.describe('POST /api/v1/auth/login', () => {
             const response = await request.post(`/api/v1/auth/login`, {
                 data: { email: payload.email, password: payload.password }
             });
+            expect(response.ok()).toBeTruthy();
             const responseBody = await response.json();
             const accessToken = response.headers()['set-cookie'];
-            // Verify response
-            expect(response.ok()).toBeTruthy();
+            // Verify response body
             expect(accessToken).toBeTruthy();
             expect(responseBody._id).toBeTruthy();
             expect(responseBody.email).toBe(payload.email);
@@ -43,9 +43,9 @@ test.describe('POST /api/v1/auth/login', () => {
             const response = await request.post(`/api/v1/auth/login`, {
                 data: { email: payload.email, password: payload.password + 'n' }
             });
+            expect(response.status()).toBe(401);
             const accessToken = response.headers()['set-cookie'];
             const responseBody = await response.json();
-            expect(response.status()).toBe(401);
             expect(accessToken).toBeFalsy();
             expect(responseBody.error).toBe('Password is incorrect.');
         }
@@ -59,9 +59,9 @@ test.describe('POST /api/v1/auth/login', () => {
             const response = await request.post(`/api/v1/auth/login`, {
                 data: { password: payload.password }
             });
+            expect(response.status()).toBe(400);
             const accessToken = response.headers()['set-cookie'];
             const responseBody = await response.json();
-            expect(response.status()).toBe(400);
             expect(accessToken).toBeFalsy();
             expect(responseBody.errors[0]).toBe('Email is required');
         }
@@ -75,9 +75,9 @@ test.describe('POST /api/v1/auth/login', () => {
             const response = await request.post(`/api/v1/auth/login`, {
                 data: { email: payload.email }
             });
+            expect(response.status()).toBe(400);
             const accessToken = response.headers()['set-cookie'];
             const responseBody = await response.json();
-            expect(response.status()).toBe(400);
             expect(accessToken).toBeFalsy();
             expect(responseBody.errors[0]).toBe('Password is required');
         }

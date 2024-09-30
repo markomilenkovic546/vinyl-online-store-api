@@ -16,9 +16,8 @@ test.describe('POST /api/v1/auth/register', () => {
             const response = await request.post(`/api/v1/auth/register`, {
                 data: payload
             });
-
-            const responseBody = await response.json();
             expect(response.ok()).toBeTruthy();
+            const responseBody = await response.json();
             expect(responseBody.message).toBe('User successfully registered.');
             expect(responseBody.email).toBe(payload.email);
             expect(responseBody.firstName).toBe(payload.firstName);
@@ -43,8 +42,8 @@ test.describe('POST /api/v1/auth/register', () => {
             const response = await request.post(`/api/v1/auth/register`, {
                 data: payload
             });
-            const responseBody = await response.json();
             expect(response.status()).toBe(400);
+            const responseBody = await response.json();
             expect(responseBody.error).toBe('Email already exists');
         }
     );
@@ -58,8 +57,8 @@ test.describe('POST /api/v1/auth/register', () => {
             const response = await request.post(`/api/v1/auth/register`, {
                 data: payload
             });
-            const responseBody = await response.json();
             expect(response.status()).toBe(400);
+            const responseBody = await response.json();
             expect(responseBody.errors[0]).toBe('Email is required');
         }
     );
@@ -73,8 +72,8 @@ test.describe('POST /api/v1/auth/register', () => {
             const response = await request.post(`/api/v1/auth/register`, {
                 data: payload
             });
-            const responseBody = await response.json();
             expect(response.status()).toBe(400);
+            const responseBody = await response.json();
             expect(responseBody.errors[0]).toBe('Password is required');
         }
     );
@@ -88,8 +87,8 @@ test.describe('POST /api/v1/auth/register', () => {
             const response = await request.post(`/api/v1/auth/register`, {
                 data: payload
             });
-            const responseBody = await response.json();
             expect(response.status()).toBe(400);
+            const responseBody = await response.json();
             expect(responseBody.errors[0]).toBe('First name is required');
         }
     );
@@ -103,8 +102,8 @@ test.describe('POST /api/v1/auth/register', () => {
             const response = await request.post(`/api/v1/auth/register`, {
                 data: payload
             });
-            const responseBody = await response.json();
             expect(response.status()).toBe(400);
+            const responseBody = await response.json();
             expect(responseBody.errors[0]).toBe('Last name is required');
         }
     );

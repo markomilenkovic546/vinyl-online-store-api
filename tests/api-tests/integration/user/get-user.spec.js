@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { createRandomUserData } from '../../../data-factory/user.js';
 import { registerUser, login, deleteUser } from '../../../utils.js';
 
-test.describe('POST /api/v1/auth/login', () => {
+test.describe('POST /api/v1/user', () => {
     let payload;
     test.beforeEach(async ({ request }) => {
         payload = createRandomUserData();
@@ -21,7 +21,7 @@ test.describe('POST /api/v1/auth/login', () => {
         'should successfully get user data',
         { tag: ['@smoke', '@positive', '@user'] },
         async ({ request }) => {
-            // get user data
+            // Get user data
             const userResponse = await request.get(`/api/v1/user`);
             expect(userResponse.ok()).toBeTruthy();
             const responseBody = await userResponse.json();
