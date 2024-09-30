@@ -23,7 +23,7 @@ test.describe('POST /api/v1/auth/register', () => {
             expect(responseBody.email).toBe(payload.email);
             expect(responseBody.firstName).toBe(payload.firstName);
             expect(responseBody.lastName).toBe(payload.lastName);
-console.log(payload)
+
             // Login to registered account
             await login(request, payload);
             // Delete user from db
@@ -108,5 +108,4 @@ console.log(payload)
             expect(responseBody.errors[0]).toBe('Last name is required');
         }
     );
-    
 });

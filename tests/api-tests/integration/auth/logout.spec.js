@@ -22,7 +22,7 @@ test.describe('POST /api/v1/auth/login', () => {
         'should successfully logout',
         { tag: ['@smoke', '@positive', '@logout'] },
         async ({ request }) => {
-            // Login to registered account
+            // Logout
             const logoutResponse = await request.post(`/api/v1/auth/logout`);
             const responseBody = await logoutResponse.json();
             // Verify response
