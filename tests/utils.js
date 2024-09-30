@@ -33,3 +33,15 @@ export async function deleteUser(request, payload) {
 
     return response;
 }
+
+export async function logout(request, payload) {
+    // Login to account
+    await login(request, payload);
+    const response = await request.post('/api/v1/auth/logout');
+
+    if (!response.ok()) {
+        throw new Error(`Logout failed: ${response.status()}`);
+    }
+
+    return response;
+}
