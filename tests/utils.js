@@ -7,7 +7,7 @@ export async function registerUser(request, payload) {
         throw new Error(`Registration failed: ${response.status()}`);
     }
 
-    return response.json();
+    return response;
 }
 
 export async function login(request, payload) {
@@ -19,15 +19,17 @@ export async function login(request, payload) {
         throw new Error(`Login failed: ${response.status()}`);
     }
 
-    return response.json();
+    return response;
 }
 
-export async function deleteUser(request) {
+export async function deleteUser(request, payload) {
+    // Login to account
+    await login(request, payload);
     const response = await request.delete('/api/v1/user');
 
     if (!response.ok()) {
         throw new Error(`User delete failed: ${response.status()}`);
     }
 
-    return response.json();
+    return response;
 }
