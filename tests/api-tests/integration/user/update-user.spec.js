@@ -34,7 +34,7 @@ test.describe('PATCH /api/v1/user', () => {
 
     test(
         'should update user by providing all inputs',
-        { tag: ['@smoke', '@negative', '@user'] },
+        { tag: ['@smoke', '@positive', '@user'] },
         async ({ request }) => {
             const imageBuffer = fs.readFileSync(imagePath);
             const { firstName, lastName, birthday } = createRandomUserData();
