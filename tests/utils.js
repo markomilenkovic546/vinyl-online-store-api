@@ -4,7 +4,7 @@ export async function registerUser(request, payload) {
     });
 
     if (!response.ok()) {
-        throw new Error(`Registration failed: ${response.status()}`);
+        throw new Error(`Registration failed: ${response.status()} Body:${await response.json()}`);
     }
 
     return response;
@@ -29,6 +29,16 @@ export async function deleteUser(request, payload) {
 
     if (!response.ok()) {
         throw new Error(`User delete failed: ${response.status()}`);
+    }
+
+    return response;
+}
+
+export async function getUser(request) {
+    const response = await request.get('/api/v1/user');
+
+    if (!response.ok()) {
+        throw new Error(`Error for user retrieval: ${response.status()}`);
     }
 
     return response;

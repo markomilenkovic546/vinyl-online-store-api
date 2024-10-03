@@ -6,7 +6,8 @@ test.describe('POST /api/v1/auth/logout', () => {
     let payload;
     let accessToken;
     test.beforeEach(async ({ request }) => {
-        payload = createRandomUserData();
+        const { firstName, lastName, email, password } = createRandomUserData();
+        payload = { firstName, lastName, email, password };
         // Register user
         await registerUser(request, payload);
         // Login
