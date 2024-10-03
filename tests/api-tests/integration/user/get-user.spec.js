@@ -5,7 +5,8 @@ import { registerUser, login, logout, deleteUser } from '../../../utils.js';
 test.describe('GET /api/v1/user', () => {
     let payload;
     test.beforeEach(async ({ request }) => {
-        payload = createRandomUserData();
+        const { firstName, lastName, email, password } = createRandomUserData();
+        payload = { firstName, lastName, email, password };
         // Register user
         await registerUser(request, payload);
         // Login
