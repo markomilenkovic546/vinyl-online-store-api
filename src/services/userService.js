@@ -101,6 +101,7 @@ export const updateUser = async (req, res, updateUserRequestDTO) => {
             filePath = path.resolve(
                 __dirname,
                 '..',
+                '..',
                 'public',
                 user.profileImage.replace(/^\/+/, '')
             );
