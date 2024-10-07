@@ -51,7 +51,7 @@ app.use(
 /* FILE STORAGE FOR PROFILE IMAGES */
 const profileImageStorage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, '../public/assets/profileImages');
+        cb(null, 'public/assets/profileImages');
     },
     filename: function (req, file, cb) {
         cb(null, `${Date.now()}-${file.originalname}`);
@@ -63,7 +63,7 @@ const uploadProfileImage = multer({ storage: profileImageStorage });
 /* FILE STORAGE FOR PRODUCT IMAGES */
 const productImageStorage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, '../public/assets/productImages');
+        cb(null, 'public/assets/productImages');
     },
     filename: function (req, file, cb) {
         cb(null, `${Date.now()}-${file.originalname}`);
