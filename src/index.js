@@ -39,11 +39,11 @@ app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 app.use(cookieParser());
 app.use(
     '/assets/profileImages',
-    express.static(path.join(__dirname, 'public/assets/profileImages'))
+    express.static(path.join(__dirname, '../public/assets/profileImages'))
 );
 app.use(
     '/assets/productImages',
-    express.static(path.join(__dirname, 'public/assets/productImages'))
+    express.static(path.join(__dirname, '../public/assets/productImages'))
 );
 
 
@@ -51,7 +51,7 @@ app.use(
 /* FILE STORAGE FOR PROFILE IMAGES */
 const profileImageStorage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'public/assets/profileImages');
+        cb(null, '../public/assets/profileImages');
     },
     filename: function (req, file, cb) {
         cb(null, `${Date.now()}-${file.originalname}`);
@@ -63,7 +63,7 @@ const uploadProfileImage = multer({ storage: profileImageStorage });
 /* FILE STORAGE FOR PRODUCT IMAGES */
 const productImageStorage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'public/assets/productImages');
+        cb(null, '../public/assets/productImages');
     },
     filename: function (req, file, cb) {
         cb(null, `${Date.now()}-${file.originalname}`);
