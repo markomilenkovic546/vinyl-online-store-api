@@ -31,7 +31,7 @@ router.post(
     addAddressHandler
 );
 
-router.put(
+router.patch(
     '/address/:id',
     verifyToken,
     validateUpdateAddressPayload,
