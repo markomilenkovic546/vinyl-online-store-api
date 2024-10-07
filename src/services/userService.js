@@ -92,7 +92,7 @@ export const updateUser = async (req, res, updateUserRequestDTO) => {
     if (firstName) user.firstName = firstName;
     if (lastName) user.lastName = lastName;
     if (birthday) user.birthday = birthday;
-
+    
     // If a new profile image is uploaded, delete current image(if exists) and update the profileImage field
     if (req.file) {
         let filePath;
@@ -138,6 +138,7 @@ export const deleteProfileImage = async (id) => {
         // Construct the full file path
         filePath = path.resolve(
             __dirname,
+            '..',
             '..',
             'public',
             user.profileImage.replace(/^\/+/, '')
