@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import AddressSchema from './address.js';
+import AddressSchema from './Address.js';
 
 const UserSchema = new mongoose.Schema({
     firstName: {
