@@ -19,6 +19,7 @@ import { createProductHandler } from './controllers/products.js';
 import { validateUpdateUserPayload } from './middleware/user/payload-validation/updateUser.js';
 import { validateCreateProductPayload } from './middleware/products/payload-validation/createProduct.js';
 
+
 /* CONFIGURATIONS */
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
