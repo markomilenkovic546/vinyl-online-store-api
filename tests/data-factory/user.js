@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 export const createRandomUserData = () => {
     const firstName = faker.person.firstName();
     const lastName = faker.person.lastName();
-    const email = `${firstName.toLowerCase()}@mailsac.com`;
+    const email = `${faker.internet.userName().toLowerCase()}@mailsac.com`;
     const password = faker.internet.password();
     const birthday = new Date(
         faker.date.birthdate({ min: 18, max: 65, mode: 'age' })

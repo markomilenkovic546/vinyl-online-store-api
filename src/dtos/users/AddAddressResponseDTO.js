@@ -2,6 +2,7 @@ export class AddAddressResponseDTO {
     constructor(addedAddress) {
         this.message = 'Address added successfully';
         this.address = {
+            _id: addedAddress._id,
             country: addedAddress.country,
             firstName: addedAddress.firstName,
             lastName: addedAddress.lastName,
