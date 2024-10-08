@@ -2,9 +2,10 @@ name: Playwright Tests
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ dev ]  # Run on push to dev branch
   pull_request:
-    branches: [ main, master ]
+    branches:
+      - main  # Run on PR to main branch from dev
 
 jobs:
   test:
@@ -44,6 +45,7 @@ jobs:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
+
 
 
 
