@@ -32,13 +32,13 @@ router.post(
 );
 
 router.patch(
-    '/address/:id',
+    '/addresses/:id',
     verifyToken,
     validateUpdateAddressPayload,
     updateAddressesHandler
 );
 
-router.delete('/address/:id', verifyToken, deleteAddressHandler);
+router.delete('/addresses/:id', verifyToken, deleteAddressHandler);
 
 router.delete('/delete-profile-image', verifyToken, deleteProfileImageHandler);
 

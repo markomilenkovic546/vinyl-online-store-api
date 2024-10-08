@@ -1,15 +1,9 @@
 import { test, expect } from '@playwright/test';
 import { createRandomUserData } from '../../../data-factory/user.js';
 import { createRandomAddressData } from '../../../data-factory/address.js';
-import {
-    registerUser,
-    login,
-    getUser,
-    logout,
-    deleteUser
-} from '../../../utils.js';
+import { registerUser, login, getUser, logout, deleteUser } from '../../../utils.js';
 
-test.describe('POST /api/v1/user/address', () => {
+test.describe('POST /api/v1/user/addresses', () => {
     let payload;
     test.beforeEach(async ({ request }) => {
         const { firstName, lastName, email, password } = createRandomUserData();
@@ -34,19 +28,16 @@ test.describe('POST /api/v1/user/address', () => {
             createAddressPayload.isDefault = true;
 
             // Send a request to create an address
-            const createAddressResponse = await request.post(
-                '/api/v1/user/addresses',
-                {
-                    data: createAddressPayload
-                }
-            );
+            const createAddressResponse = await request.post('/api/v1/user/addresses', {
+                data: createAddressPayload
+            });
             expect(createAddressResponse.ok()).toBeTruthy();
-            const createAddressResponseBody =
-                await createAddressResponse.json();
+            const createAddressResponseBody = await createAddressResponse.json();
             // Verify response body of the 'Create address' request
             expect(createAddressResponseBody).toMatchObject({
                 message: 'Address added successfully',
                 address: {
+                    _id: expect.any(String),
                     country: createAddressPayload.country,
                     firstName: createAddressPayload.firstName,
                     lastName: createAddressPayload.lastName,
@@ -95,19 +86,16 @@ test.describe('POST /api/v1/user/address', () => {
             createAddressPayload.isDefault = false;
 
             // Send a request to create an address
-            const createAddressResponse = await request.post(
-                '/api/v1/user/addresses',
-                {
-                    data: createAddressPayload
-                }
-            );
+            const createAddressResponse = await request.post('/api/v1/user/addresses', {
+                data: createAddressPayload
+            });
             expect(createAddressResponse.ok()).toBeTruthy();
-            const createAddressResponseBody =
-                await createAddressResponse.json();
+            const createAddressResponseBody = await createAddressResponse.json();
             // Verify response body of the 'Create address' request
             expect(createAddressResponseBody).toMatchObject({
                 message: 'Address added successfully',
                 address: {
+                    _id: expect.any(String),
                     country: createAddressPayload.country,
                     firstName: createAddressPayload.firstName,
                     lastName: createAddressPayload.lastName,
@@ -157,15 +145,11 @@ test.describe('POST /api/v1/user/address', () => {
             // Prepare address payload
             const createAddressPayload = createRandomAddressData();
             createAddressPayload.isDefault = false;
-            const createAddressResponse = await request.post(
-                '/api/v1/user/addresses',
-                {
-                    data: createAddressPayload
-                }
-            );
+            const createAddressResponse = await request.post('/api/v1/user/addresses', {
+                data: createAddressPayload
+            });
             expect(createAddressResponse.status()).toBe(401);
-            const createAddressResponseBody =
-                await createAddressResponse.json();
+            const createAddressResponseBody = await createAddressResponse.json();
             expect(createAddressResponseBody).toMatchObject({
                 error: 'Unauthorized'
             });
@@ -182,15 +166,11 @@ test.describe('POST /api/v1/user/address', () => {
             const createAddressPayload = createRandomAddressData();
             createAddressPayload.isDefault = false;
             delete createAddressPayload.firstName;
-            const createAddressResponse = await request.post(
-                '/api/v1/user/addresses',
-                {
-                    data: createAddressPayload
-                }
-            );
+            const createAddressResponse = await request.post('/api/v1/user/addresses', {
+                data: createAddressPayload
+            });
             expect(createAddressResponse.status()).toBe(400);
-            const createAddressResponseBody =
-                await createAddressResponse.json();
+            const createAddressResponseBody = await createAddressResponse.json();
             expect(createAddressResponseBody).toMatchObject({
                 errors: ['First name is required']
             });
@@ -205,15 +185,11 @@ test.describe('POST /api/v1/user/address', () => {
             const createAddressPayload = createRandomAddressData();
             createAddressPayload.isDefault = false;
             delete createAddressPayload.lastName;
-            const createAddressResponse = await request.post(
-                '/api/v1/user/addresses',
-                {
-                    data: createAddressPayload
-                }
-            );
+            const createAddressResponse = await request.post('/api/v1/user/addresses', {
+                data: createAddressPayload
+            });
             expect(createAddressResponse.status()).toBe(400);
-            const createAddressResponseBody =
-                await createAddressResponse.json();
+            const createAddressResponseBody = await createAddressResponse.json();
             expect(createAddressResponseBody).toMatchObject({
                 errors: ['Last name is required']
             });
