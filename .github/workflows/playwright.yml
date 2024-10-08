@@ -20,7 +20,7 @@ jobs:
       run: npm ci
 
     - name: Start server
-      run: npm run dev &
+      run: npm run ci &
 
     - name: Wait for server to be ready
       run: |
