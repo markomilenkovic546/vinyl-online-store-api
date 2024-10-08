@@ -20,14 +20,16 @@ jobs:
       run: npm ci
 
     - name: Start server
+      env:
+        MONGO_URL: ${{ secrets.MONGO_URL }}
+        PORT: 3001
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        CLIENT_ORIGIN: ${{ secrets.CLIENT_ORIGIN }}
+        BASE_URL: ${{ secrets.BASE_URL }}
       run: |
         echo "Starting the server..."
-        MONGO_URL=${{ secrets.MONGO_URL }}
-        PORT=3001 JWT_SECRET=${{ secrets.JWT_SECRET }}
-        CLIENT_ORIGIN=${{ secrets.CLIENT_ORIGIN }}
-        BASE_URL=${{ secrets.BASE_URL }}
         npm run dev &
-      
+
     - name: Wait for server to be ready
       run: |
         echo "Waiting for the server to start..."
