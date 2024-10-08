@@ -2,9 +2,11 @@ name: Playwright Tests
 
 on:
   push:
-    branches: [ main, master ]
+    branches:
+      - dev
   pull_request:
-    branches: [ main, master ]
+    branches:
+      - main  
 
 jobs:
   test:
@@ -20,12 +22,20 @@ jobs:
       run: npm ci
 
     - name: Start server
-      run: npm run dev &
+      env:
+        MONGO_URL: ${{ secrets.MONGO_URL }}
+        PORT: 3001
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        CLIENT_ORIGIN: ${{ secrets.CLIENT_ORIGIN }}
+        BASE_URL: ${{ secrets.BASE_URL }}
+      run: |
+        echo "Starting the server..."
+        npm run dev &
 
     - name: Wait for server to be ready
       run: |
         echo "Waiting for the server to start..."
-        sleep 5 
+        sleep 10 
 
     - name: Run Playwright tests
       run: npx playwright test
@@ -36,3 +46,4 @@ jobs:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
+
