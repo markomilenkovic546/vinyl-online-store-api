@@ -7,21 +7,15 @@ export const verifyToken = async (req, res, next) => {
             return res.status(401).send({ error: 'Unauthorized' });
         }
 
-        if (token.startsWith('Bearer ')) {
-            token = token.slice(7, token.length).trimLeft();
-        }
-
         const verified = jwt.verify(token, process.env.JWT_SECRET);
         req.user = verified;
         next();
     } catch (error) {
         if (error.message === 'invalid signature') {
-            return res
-                .status(401)
-                .json({ error: 'Unauthorized'});
+            return res.status(401).json({ error: 'Unauthorized' });
         }
         res.status(500).json({ error: error.message });
 
-        console.log(error.message);
+        console.error(error.message);
     }
 };
