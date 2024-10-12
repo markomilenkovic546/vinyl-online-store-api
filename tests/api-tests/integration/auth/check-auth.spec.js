@@ -31,7 +31,7 @@ test.describe('GET /api/v1/auth/check-auth', () => {
 
     test(
         'should return that user is not authenticated if the user is not logged in',
-        { tag: ['@smoke', '@positive', '@auth'] },
+        { tag: ['@smoke', '@negative', '@auth'] },
         async ({ request }) => {
             await logout(request, payload);
             const checkAuthResponse = await request.get('/api/v1/auth/check-auth');
