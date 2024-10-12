@@ -1,3 +1,4 @@
+import jwt from 'jsonwebtoken';
 import { registerUser, loginUser } from '../services/userService.js';
 import { RegisterRequestDTO } from '../dtos/auth/RegisterRequestDTO.js';
 import { RegisterResponseDTO } from '../dtos/auth/RegisterResponseDTO.js';
@@ -83,5 +84,21 @@ export const logout = async (req, res) => {
 };
 
 export const authCheckHandler = async (req, res) => {
+    try {
+        let token = req.cookies.jwt;
+        if (!token) {
+            return res.status(200).json({ authenticated: false });
+        }
+
+        const verified = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = verified;
+    } catch (error) {
+        if (error.message === 'invalid signature') {
+            return res.status(200).json({ authenticated: false });
+        }
+        res.status(500).json({ error: error.message });
+
+        console.error(error.message);
+    }
     res.status(200).json({ authenticated: true, userId: req.user.id });
 };
