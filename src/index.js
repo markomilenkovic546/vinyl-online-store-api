@@ -12,7 +12,6 @@ import { fileURLToPath } from 'url';
 import authRoutes from './routes/auth.js';
 import usersRoutes from './routes/users.js';
 import productsRoutes from './routes/products.js';
-import artistsRoutes from './routes/artists.js';
 import cartRoutes from './routes/cart.js';
 import { verifyToken } from './middleware/auth/auth.js';
 import { updateUserHandler } from './controllers/users.js';
@@ -91,7 +90,6 @@ app.post(
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/user', usersRoutes);
 app.use('/api/v1/products', productsRoutes);
-app.use('/api/v1/artists', artistsRoutes);
 app.use('/api/v1/cart', cartRoutes);
 
 /* MONGOOSE SETUP */
