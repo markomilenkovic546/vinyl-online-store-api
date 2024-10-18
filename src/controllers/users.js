@@ -5,9 +5,7 @@ import {
     addAddress,
     deleteProfileImage,
     deleteAddress,
-    deleteUser,
-    seedCountries,
-    getCountries
+    deleteUser
 } from '../services/userService.js';
 import { GetUserResponseDTO } from '../dtos/users/GetUserResponseDTO.js';
 import { ChangePasswordRequestDTO } from '../dtos/users/ChangePasswordRequestDTO.js';
@@ -50,17 +48,12 @@ export const changePasswordHandler = async (req, res) => {
     const { id } = req.user;
     const payload = req.body;
     try {
-        const changePasswordRequestDTO = new ChangePasswordRequestDTO(
-            id,
-            payload
-        );
+        const changePasswordRequestDTO = new ChangePasswordRequestDTO(id, payload);
         // Update password in db
         const user = await changePassword(changePasswordRequestDTO);
         if (user) {
             // Sanitize data and prepare for response
-            const changePasswordResponseDTO = new ChangePasswordResponseDTO(
-                user
-            );
+            const changePasswordResponseDTO = new ChangePasswordResponseDTO(user);
             // Send response for successful password change
             res.status(201).json(changePasswordResponseDTO);
         }
@@ -148,14 +141,8 @@ export const updateAddressesHandler = async (req, res) => {
     const updateAddressRequestDTO = new UpdateAddressRequestDTO(payload);
 
     try {
-        const updatedAddress = await updateAddress(
-            req,
-            res,
-            updateAddressRequestDTO
-        );
-        const updateAddressResponseDTO = new UpdateAddressResponseDTO(
-            updatedAddress
-        );
+        const updatedAddress = await updateAddress(req, res, updateAddressRequestDTO);
+        const updateAddressResponseDTO = new UpdateAddressResponseDTO(updatedAddress);
         res.status(201).json(updateAddressResponseDTO);
     } catch (error) {
         if (
@@ -203,34 +190,6 @@ export const deleteUserHandler = async (req, res) => {
     try {
         const deleted = await deleteUser(req, res);
         res.status(200).json({ message: 'User successfully deleted' });
-    } catch (error) {
-        res.status(500).json({
-            error: 'An unexpected error occurred. Please try again later.'
-        });
-        console.error(error.message);
-    }
-};
-
-
-export const seedCountriesHandler = async (req, res) => {
-    try {
-        const payload = req.body
-        await seedCountries(payload)
-        res.status(200).json({ message: 'Countries seeded successfully' });
-    } catch (error) {
-        res.status(500).json({
-            error: 'An unexpected error occurred. Please try again later.'
-        });
-        console.error(error.message);
-    }
-};
-
-
-export const getCountriesHandler = async (req, res) => {
-    try {
-        
-        const countries = await getCountries()
-        res.status(200).json({countries: countries});
     } catch (error) {
         res.status(500).json({
             error: 'An unexpected error occurred. Please try again later.'
