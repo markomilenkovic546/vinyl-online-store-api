@@ -27,6 +27,7 @@ export const getProducts = async (req, res) => {
     if (artist) filter.artist = artist;
     if (decade) filter.decade = decade;
     if (genre) filter.genre = genre;
+    if (format) filter.format = format;
     if (featured) filter.featured = featured === 'true';
     if (inStock) filter.inStock = inStock === 'true';
     // Build sort object
@@ -38,7 +39,3 @@ export const getProducts = async (req, res) => {
     return await Product.find(filter).sort(sort);
 };
 
-export const getArtists = async () => {
-    return await Product.distinct("artist");
-   
-}
