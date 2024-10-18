@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import Cart from '../models/Cart.js';
+import Country from '../models/Country.js';
 import mongoose from 'mongoose';
 import fs from 'fs-extra';
 import path from 'path';
@@ -30,8 +32,12 @@ export const registerUser = async (registerRequestDTO) => {
         ]
     });
 
-    // Record a new user in db and return the result
-    return await newUser.save();
+    // Record a new user in db
+    const user = await newUser.save();
+    // Create cart for the user
+    const cart = new Cart({ userId: user._id });
+    await cart.save();
+    return user;
 };
 
 export const loginUser = async (loginRequestDTO) => {
@@ -92,7 +98,7 @@ export const updateUser = async (req, res, updateUserRequestDTO) => {
     if (firstName) user.firstName = firstName;
     if (lastName) user.lastName = lastName;
     if (birthday) user.birthday = birthday;
-    
+
     // If a new profile image is uploaded, delete current image(if exists) and update the profileImage field
     if (req.file) {
         let filePath;
@@ -202,9 +208,7 @@ export const updateAddress = async (req, res, updateAddressRequestDTO) => {
         throw new Error('User not found.');
     }
 
-    const address = user.addresses.find(
-        (addr) => addr._id.toString() === addressId
-    );
+    const address = user.addresses.find((addr) => addr._id.toString() === addressId);
 
     if (!address) {
         throw new Error('Address not found.');
@@ -287,4 +291,16 @@ export const deleteUser = async (req, res) => {
     const result = await User.deleteOne({ _id: userId });
     console.log('Delete result:', result);
     return result;
+};
+
+export const seedCountries = async (payload) => {
+    // Clear existing countries
+    await Country.deleteMany({});
+
+    // Insert the sample countries
+    return await Country.insertMany(payload);
+};
+
+export const getCountries = async () => {
+    return await Country.find();
 };

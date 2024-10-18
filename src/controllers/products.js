@@ -1,7 +1,7 @@
 import { createProduct } from '../services/productService.js';
 import { CreateProductRequestDTO } from '../dtos/product/CreateProductRequestDTO.js';
 import { CreateProductResponseDTO } from '../dtos/product/CreateProductResponseDTO.js';
-import { getProductById, getProducts } from '../services/productService.js';
+import { getProductById, getProducts, getArtists } from '../services/productService.js';
 
 export const createProductHandler = async (req, res) => {
     const file = req.file?.filename;
@@ -55,6 +55,19 @@ export const getProductsHandler = async (req, res) => {
     try {
         const products = await getProducts(req, res)
         res.status(200).json(products);
+    } catch (error) {
+        res.status(500).json({
+            error: 'An unexpected error occurred. Please try again later.'
+        });
+        console.error(error);
+    }
+};
+
+
+export const getArtistsHandler = async (req, res) => {
+    try {
+        const artists = await getArtists();
+        res.status(200).json({ artists: artists });
     } catch (error) {
         res.status(500).json({
             error: 'An unexpected error occurred. Please try again later.'

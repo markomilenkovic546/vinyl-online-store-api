@@ -37,3 +37,8 @@ export const getProducts = async (req, res) => {
     // Fetch products from the database
     return await Product.find(filter).sort(sort);
 };
+
+export const getArtists = async () => {
+    return await Product.distinct("artist");
+   
+}

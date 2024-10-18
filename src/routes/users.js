@@ -3,7 +3,9 @@ import {
     getUserHandler,
     changePasswordHandler,
     deleteProfileImageHandler,
-    deleteAddressHandler
+    deleteAddressHandler,
+    seedCountriesHandler,
+    getCountriesHandler
 } from '../controllers/users.js';
 import { verifyToken } from '../middleware/auth/auth.js';
 import { validateChangePasswordPayload } from '../middleware/user/payload-validation/changePassword.js';
@@ -24,12 +26,7 @@ router.post(
     validateChangePasswordPayload,
     changePasswordHandler
 );
-router.post(
-    '/addresses',
-    verifyToken,
-    validateAddAddressPayload,
-    addAddressHandler
-);
+router.post('/addresses', verifyToken, validateAddAddressPayload, addAddressHandler);
 
 router.patch(
     '/addresses/:id',
@@ -37,6 +34,10 @@ router.patch(
     validateUpdateAddressPayload,
     updateAddressesHandler
 );
+
+router.get('/addresses/countries', getCountriesHandler);
+
+router.post('/addresses/seed-countries', seedCountriesHandler)
 
 router.delete('/addresses/:id', verifyToken, deleteAddressHandler);
 
