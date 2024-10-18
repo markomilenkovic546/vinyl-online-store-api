@@ -5,7 +5,9 @@ import {
     addAddress,
     deleteProfileImage,
     deleteAddress,
-    deleteUser
+    deleteUser,
+    seedCountries,
+    getCountries
 } from '../services/userService.js';
 import { GetUserResponseDTO } from '../dtos/users/GetUserResponseDTO.js';
 import { ChangePasswordRequestDTO } from '../dtos/users/ChangePasswordRequestDTO.js';
@@ -201,6 +203,34 @@ export const deleteUserHandler = async (req, res) => {
     try {
         const deleted = await deleteUser(req, res);
         res.status(200).json({ message: 'User successfully deleted' });
+    } catch (error) {
+        res.status(500).json({
+            error: 'An unexpected error occurred. Please try again later.'
+        });
+        console.error(error.message);
+    }
+};
+
+
+export const seedCountriesHandler = async (req, res) => {
+    try {
+        const payload = req.body
+        await seedCountries(payload)
+        res.status(200).json({ message: 'Countries seeded successfully' });
+    } catch (error) {
+        res.status(500).json({
+            error: 'An unexpected error occurred. Please try again later.'
+        });
+        console.error(error.message);
+    }
+};
+
+
+export const getCountriesHandler = async (req, res) => {
+    try {
+        
+        const countries = await getCountries()
+        res.status(200).json({countries: countries});
     } catch (error) {
         res.status(500).json({
             error: 'An unexpected error occurred. Please try again later.'

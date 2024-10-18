@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 import Cart from '../models/Cart.js';
+import Country from '../models/Country.js';
 import mongoose from 'mongoose';
 import fs from 'fs-extra';
 import path from 'path';
@@ -290,4 +291,16 @@ export const deleteUser = async (req, res) => {
     const result = await User.deleteOne({ _id: userId });
     console.log('Delete result:', result);
     return result;
+};
+
+export const seedCountries = async (payload) => {
+    // Clear existing countries
+    await Country.deleteMany({});
+
+    // Insert the sample countries
+    return await Country.insertMany(payload);
+};
+
+export const getCountries = async () => {
+    return await Country.find();
 };
