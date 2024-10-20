@@ -9,5 +9,11 @@ export const seedCountries = async (payload) => {
 };
 
 export const getCountries = async () => {
-    return await Country.find();
+    const countries = await Country.find();
+    return countries.map((country) => {
+       return {
+        value: country.name.toLowerCase(),
+        label: country.name
+       }
+    })
 };
