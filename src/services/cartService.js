@@ -26,3 +26,27 @@ export const getCart = async (userId) => {
 
     return formattedCart;
 };
+
+export const addToCart = async (addToCartRequestDTO) => {
+    const { userId, productId, quantity } = addToCartRequestDTO;
+    let cart = await Cart.findOne({ userId });
+
+    if (!cart) {
+        cart = new Cart({
+            userId,
+            products: [{ productId, quantity }]
+        });
+        return await cart.save();
+    }
+
+    const productIndex = cart.products.findIndex((product) =>
+        product.productId.equals(productId)
+    );
+    if (productIndex > -1) {
+        cart.products[productIndex].quantity += quantity;
+        return await cart.save();
+    } else {
+        cart.products.push({ productId: productId, quantity: quantity });
+        return await cart.save();
+    }
+};
