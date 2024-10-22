@@ -33,9 +33,6 @@ export const registerUser = async (registerRequestDTO) => {
 
     // Record a new user in db
     const user = await newUser.save();
-    // Create cart for the user
-    const cart = new Cart({ userId: user._id });
-    await cart.save();
     return user;
 };
 
@@ -291,4 +288,3 @@ export const deleteUser = async (req, res) => {
     console.log('Delete result:', result);
     return result;
 };
-

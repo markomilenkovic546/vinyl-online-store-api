@@ -5,7 +5,7 @@ export const getCart = async (userId) => {
     const cart = await Cart.findOne({ userId }).populate('products.productId').exec();
 
     if (!cart) {
-        throw new Error('Cart not find');
+        throw new Error('Cart not found.');
     }
 
     const formattedCart = {
