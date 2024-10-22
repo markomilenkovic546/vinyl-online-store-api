@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import mongoose from 'mongoose';
 
-const addToCartSchema = Joi.object({
+const updateCartSchema = Joi.object({
     productId: Joi.string()
         .custom((value, helpers) => {
             // Validate if the string is a valid ObjectId
@@ -17,12 +17,12 @@ const addToCartSchema = Joi.object({
             'string.base': 'productId must be a string',
             'any.required': 'productId is required'
         }),
-    quantity: Joi.number().strict().min(1).max(1).required().messages({
+    quantity: Joi.number().strict().min(0).max(5).required().messages({
         'any.required': 'quantity is required',
         'number.base': 'quantity must be a number',
-        'number.min': 'quantity must be at least 1',
-        'number.max': 'max allowed quantity is 1'
+        'number.min': 'quantity must be at least 0',
+        'number.max': 'max allowed quantity is 5'
     })
 });
 
-export default addToCartSchema;
+export default updateCartSchema;

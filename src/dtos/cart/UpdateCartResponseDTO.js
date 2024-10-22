@@ -1,7 +1,7 @@
-export class AddToCartResponseDTO {
+export class UpdateCartResponseDTO {
     constructor(cartData) {
         this.status = 'success';
-        this.message = 'Product added to cart successfully.';
+        this.message = 'Cart updated successfully.';
         this.cart = {
             id: cartData._id,
             products: cartData.products.map((product) => {
