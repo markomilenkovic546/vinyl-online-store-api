@@ -1,7 +1,6 @@
 import { getCart, addToCart } from '../services/cartService.js';
 import { GetCartResponseDTO } from '../dtos/cart/GetCartResponseDTO.js';
 import { AddToCartRequestDTO } from '../dtos/cart/AddToCartRequestDTO.js';
-import { AddAddressResponseDTO } from '../dtos/users/AddAddressResponseDTO.js';
 import { AddToCartResponseDTO } from '../dtos/cart/AddToCartResponseDTO.js';
 
 export const getCartHandler = async (req, res) => {

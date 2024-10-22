@@ -10,17 +10,17 @@ export const getCart = async (userId) => {
 
     const formattedCart = {
         id: cart._id,
-        userId: cart.userId,
         products: cart.products.map((product) => ({
             id: product.productId._id,
             title: product.productId.title,
             artist: product.productId.artist,
-            price: product.productId.price,
-            productImage: product.productId.productImage,
-            quantity: product.quantity
+            quantity: product.quantity,
+            pricePerUnit: product.productId.price,
+            totalPrice: product.quantity * product.productId.price,
+            productImage: product.productId.productImage
         })),
         subtotal: cart.products.reduce((sum, product) => {
-            return sum + product.price * product.quantity;
+            return sum + product.productId.price * product.quantity;
         }, 0)
     };
 

@@ -13,6 +13,6 @@ const cartSchema = new mongoose.Schema({
         }
     ]
 });
-cartSchema.path('products').schema.add({ _id: false });
+
 const Cart = mongoose.model('Cart', cartSchema);
 export default Cart;
