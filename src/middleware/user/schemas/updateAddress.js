@@ -24,6 +24,9 @@ const updateAddressSchema = Joi.object({
     city: Joi.string().optional().messages({
         'string.base': 'City must be a string'
     }),
+    state: Joi.string().optional().messages({
+        'string.base': 'State must be a string'
+    }),
     postalCode: Joi.string().optional().messages({
         'string.base': 'Postal code must be a string'
     }),
