@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 const addAddressSchema = Joi.object({
-    country: Joi.string().optional().messages({
+    country: Joi.string().allow('').optional().messages({
         'string.base': 'Country must be a string'
     }),
     firstName: Joi.string().required().messages({
@@ -12,25 +12,25 @@ const addAddressSchema = Joi.object({
         'any.required': 'Last name is required',
         'string.base': 'Last name must be a string'
     }),
-    company: Joi.string().optional().messages({
+    company: Joi.string().allow('').optional().messages({
         'string.base': 'Company must be a string'
     }),
-    streetAddress: Joi.string().optional().messages({
+    streetAddress: Joi.string().required().messages({
         'string.base': 'Street address must be a string'
     }),
-    apartment: Joi.string().optional().messages({
+    apartment: Joi.string().allow('').optional().messages({
         'string.base': 'Apartment must be a string'
     }),
-    city: Joi.string().optional().messages({
+    city: Joi.string().required().messages({
         'string.base': 'City must be a string'
     }),
-    state: Joi.string().optional().messages({
+    state: Joi.string().allow('').optional().messages({
         'string.base': 'State must be a string'
     }),
-    postalCode: Joi.string().optional().messages({
+    postalCode: Joi.string().required().messages({
         'string.base': 'Postal code must be a string'
     }),
-    phone: Joi.string().optional().messages({
+    phone: Joi.string().allow('').optional().messages({
         'string.base': 'Phone must be a string'
     }),
     isDefault: Joi.boolean().optional().messages({
