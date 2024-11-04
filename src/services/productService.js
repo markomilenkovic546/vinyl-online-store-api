@@ -19,7 +19,7 @@ export const getProductById = async (id) => {
 };
 
 export const getProducts = async (req, res) => {
-    const { artist, genre, decade, featured, inStock, sortBy, order } =
+    const { artist, genre, decade, featured, inStock, sortBy, order, format } =
         req.query;
 
     // Build filter object
@@ -27,6 +27,7 @@ export const getProducts = async (req, res) => {
     if (artist) filter.artist = artist;
     if (decade) filter.decade = decade;
     if (genre) filter.genre = genre;
+    if (format) filter.format = format;
     if (featured) filter.featured = featured === 'true';
     if (inStock) filter.inStock = inStock === 'true';
     // Build sort object
