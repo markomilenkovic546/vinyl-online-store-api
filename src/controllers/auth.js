@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { registerUser, loginUser } from '../services/userService.js';
+import { registerUser, loginUser } from '../services/authService.js';
 import { RegisterRequestDTO } from '../dtos/auth/RegisterRequestDTO.js';
 import { RegisterResponseDTO } from '../dtos/auth/RegisterResponseDTO.js';
 import { LoginRequestDTO } from '../dtos/auth/LoginRequestDTO.js';
