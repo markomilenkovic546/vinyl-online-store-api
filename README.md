@@ -48,7 +48,7 @@ The workflow triggers automatically on:
 ### Steps to Run Locally
 1. Clone the repo: `npm clone <repo url>`
 2. Install dependencies: `npm install`
-3. Sign in to MongoDB Atlasand create a new cluster and database. Obtain your connection string for the database.
+3. Sign in to MongoDB Atlas and create a new cluster and database. Obtain your connection string for the database.
 4. Add `.env` file
 5. Add env variables
 Example:
