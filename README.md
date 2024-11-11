@@ -45,19 +45,29 @@ The workflow triggers automatically on:
 - **Push events** to the `dev` branch.
 - **Pull requests** to the `main` branch.
 
-### Steps to Run Locally
-1. Clone the repo: `npm clone <repo url>`
-2. Install dependencies: `npm install`
-3. Sign in to MongoDB Atlas and create a new cluster and database. Obtain your connection string for the database.
-4. Add `.env` file
-5. Add env variables
-Example:
-`MONGO_URL = <url example>
-PORT = 3001
-JWT_SECRET = <secret>
-CLIENT_ORIGIN = <client app origin>
-BASE_URL = "http://localhost:3000"`
-6. Run the server: `npm run dev`
+```bash
+# 1. Clone the repository
+git clone <repo_url>
+
+# 2. Install dependencies
+npm install
+
+# 3. Set up MongoDB
+#    Sign in to MongoDB Atlas and create a new cluster and database.
+#    Obtain the connection string for your database.
+
+# 4. Add .env file
+#    Create a .env file in the root directory of your project.
+
+# 5. Add environment variables
+MONGO_URL="<your MongoDB connection string>"
+PORT=3001
+JWT_SECRET="<your JWT secret>"
+CLIENT_ORIGIN="<client app origin URL>"
+BASE_URL="http://localhost:3000"
+
+# 6. Run the server
+npm run dev
     
 
 
