@@ -45,6 +45,8 @@ The workflow triggers automatically on:
 - **Push events** to the `dev` branch.
 - **Pull requests** to the `main` branch.
 
+
+## Steps to Run Locally
 ```bash
 # 1. Clone the repository
 git clone <repo_url>
