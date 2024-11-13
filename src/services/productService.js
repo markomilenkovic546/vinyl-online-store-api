@@ -62,7 +62,8 @@ export const getProducts = async (req, res) => {
             totalProducts,
             page: pageNumber,
             totalPages,
-            pageSize
+            pageSize,
+            fetchedItems: products.length
         }
     };
 };
