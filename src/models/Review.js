@@ -7,6 +7,11 @@ const reviewSchema = new Schema({
         required: true,
         ref: 'User'
     },
+    productId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'Product'
+    },
     comment: {
         type: String,
         required: true
