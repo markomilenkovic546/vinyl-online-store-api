@@ -9,11 +9,11 @@ const reviewSchema = new Schema({
         ref: 'User'
     },
     comment: {
-        type: string,
+        type: String,
         required: true
     },
     rating: {
-        type: number,
+        type: Number,
         required: true
     }
 
