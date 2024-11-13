@@ -5,7 +5,8 @@ export class CreateReviewResponseDTO {
             userName: review.user.firstName,
             userImage: review.user.profileImage,
             comment: review.comment,
-            rating: review.rating
+            rating: review.rating,
+            createdAt: review.createdAt
         };
     }
 }
