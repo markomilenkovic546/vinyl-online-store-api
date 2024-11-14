@@ -171,7 +171,7 @@ export const updateAddress = async (req, res, updateAddressRequestDTO) => {
     }
 
     // If user wants to update address to be default, update current default address
-    if (address) {
+    if (updateAddressRequestDTO.isDefault) {
         user.addresses.forEach((address) => {
             if (address.isDefault) {
                 address.isDefault = false;
