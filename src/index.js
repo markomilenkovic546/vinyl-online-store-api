@@ -15,6 +15,7 @@ import productsRoutes from './routes/products.js';
 import cartRoutes from './routes/cart.js';
 import linksRoutes from './routes/links.js';
 import countriesRoutes from './routes/countries.js';
+import reviewRoutes from  './routes/review.js';
 import { verifyToken } from './middleware/auth/auth.js';
 import { updateUserHandler } from './controllers/users.js';
 import { createProductHandler } from './controllers/products.js';
@@ -95,6 +96,7 @@ app.use('/api/v1/products', productsRoutes);
 app.use('/api/v1/cart', cartRoutes);
 app.use('/api/v1/countries', countriesRoutes);
 app.use('/api/v1/links', linksRoutes);
+app.use('/api/v1/review', reviewRoutes);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
