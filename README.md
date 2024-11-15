@@ -1,6 +1,6 @@
 # Vinyl Online Store - REST API
 
- REST API built with **Express.js** and **MongoDB** for an online vinyl record store. It includes key e-commerce features.
+ RESTful API built with **Express.js** and **MongoDB** for an online vinyl record store. It includes key e-commerce features.
 
 
 ## Features
