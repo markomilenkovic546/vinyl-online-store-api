@@ -159,7 +159,9 @@ export const updateAddress = async (req, res, updateAddressRequestDTO) => {
         throw new Error('User not found.');
     }
 
-    const address = user.addresses.find((addr) => addr._id.toString() === addressId);
+    const address = user.addresses.find(
+        (addr) => addr._id.toString() === addressId
+    );
 
     if (!address) {
         throw new Error('Address not found.');
@@ -216,13 +218,13 @@ export const deleteAddress = async (req, res) => {
     }
 
     // If address that has to be deleted is default address, set first other address to default one
-    const addressToSetToDefault = user.addresses.find(
-        (address) => address._id.toString() !== addressId
-    );
-
-    if (addressToSetToDefault) {
+    if (addressToDelete.isDefault) {
+        const addressToSetToDefault = user.addresses.find(
+            (address) => address._id.toString() !== addressId
+        );
         addressToSetToDefault.isDefault = true;
     }
+
     await user.save();
 
     // Delete address
